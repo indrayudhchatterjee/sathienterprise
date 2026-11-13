@@ -1,0 +1,861 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sathi Enterprise – Accounts</title>
+<!-- PWA Web App Manifest and Icons -->
+<link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Sathi%20Enterprise%20Accounts%22%2C%22short_name%22%3A%22Sathi%20POS%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f4f6f8%22%2C%22theme_color%22%3A%22%230f6e56%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iIzBmNmU1NiIgcng9IjEwMCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjM1ZW0iIGZpbGw9IiNmZmZmZmYiIGZvbnQtc2l6ZT0iMjUwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TRTwvdGV4dD48L3N2Zz4%3D%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iIzBmNmU1NiIgcng9IjEwMCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjM1ZW0iIGZpbGw9IiNmZmZmZmYiIGZvbnQtc2l6ZT0iMjUwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TRTwvdGV4dD48L3N2Zz4=">
+<meta name="theme-color" content="#0f6e56">
+
+<style>
+:root{--bg:#f4f6f8;--c:#fff;--t:#1d2433;--m:#667085;--a:#0f6e56;--b:#dde1e8;--r:#b42318;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14171c;--c:#1d222a;--t:#e8eaee;--m:#98a2b3;--a:#3fc3a0;--b:#333a45;--r:#f97066}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:15px/1.4 system-ui,sans-serif}
+nav{display:flex;gap:4px;overflow-x:auto;background:var(--c);border-bottom:1px solid var(--b);padding:8px;position:sticky;top:0;z-index:5}
+nav button{white-space:nowrap}main{max-width:1000px;margin:auto;padding:12px}
+button{background:var(--a);color:#fff;border:0;border-radius:6px;padding:7px 12px;font:inherit;cursor:pointer}
+button.o{background:none;color:var(--a);border:1px solid var(--a)}button.x{background:var(--r)}nav button.on{outline:2px solid var(--t)}
+input,select,textarea{width:100%;padding:7px;border:1px solid var(--b);border-radius:6px;background:var(--bg);color:var(--t);font:inherit}
+label{display:block;font-size:12px;color:var(--m)}.card{background:var(--c);border:1px solid var(--b);border-radius:10px;padding:12px;margin:10px 0}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}.it{display:grid;grid-template-columns:3fr 1fr 1fr 1fr 1fr;gap:6px;margin:4px 0;align-items:center}
+.st{font-size:12px;color:var(--m)}.st b{display:block;font-size:19px;color:var(--t)}.m{color:var(--m)}.sc{overflow-x:auto}
+table{width:100%;border-collapse:collapse}th,td{padding:6px;border-bottom:1px solid var(--b);text-align:left;font-size:14px}.bar{height:8px;background:var(--a);border-radius:4px}
+#ov{display:none;position:fixed;inset:0;background:var(--bg);overflow:auto;padding:12px;z-index:9}body.ov #ov{display:block}
+#lg{display:none;position:fixed;inset:0;z-index:20;background:var(--bg);align-items:center;justify-content:center;padding:16px}body.lk #lg{display:flex}body.lk #app,body.lk #ov{display:none}
+.pf{display:grid;grid-template-columns:2fr 1fr;gap:16px}.bk{border-left:1px solid var(--b);padding-left:16px}@media(max-width:760px){.pf{grid-template-columns:1fr}.bk{border-left:0;padding-left:0;border-top:1px solid var(--b);padding-top:8px}}
+.itemhead{display:grid;grid-template-columns:34px minmax(150px,2fr) 58px 55px 75px 85px 78px 55px 78px 55px 78px 55px 78px;gap:4px;min-width:1040px;background:var(--bg);padding:7px 3px;font-size:11px;font-weight:700;text-align:center}.itemhead span{overflow-wrap:anywhere}h2,h3{margin:6px 0}.inv{background:#fff;color:#000;padding:16px;border:1px solid #999;max-width:760px;margin:auto}.inv th,.inv td{border-color:#bbb}
+@media print{.np,nav{display:none!important}body.ov #app{display:none}#ov{position:static;padding:0}body{background:#fff;color:#000}.card{border:0}}
+
+/* Thermal Print Styles */
+@media print {
+    .thermal-print .np { display: none !important; }
+    .thermal-print body { background: #fff; color: #000; font-family: monospace; margin: 0; padding: 0; }
+    .thermal-print #app, .thermal-print #lg { display: none !important; }
+    .thermal-print #ov { position: absolute; left: 0; top: 0; width: 80mm; padding: 0; }
+    .thermal-print .thermal-slip { width: 72mm; margin: 0 auto; font-size: 12px; line-height: 1.2; }
+    .thermal-print .thermal-slip h2 { font-size: 16px; margin: 4px 0; text-align: center; }
+    .thermal-print .thermal-slip p { margin: 2px 0; }
+    .thermal-print .thermal-slip .center { text-align: center; }
+    .thermal-print .thermal-slip table { width: 100%; border-collapse: collapse; margin: 6px 0; }
+    .thermal-print .thermal-slip th, .thermal-print .thermal-slip td { border-bottom: 1px dashed #000; padding: 4px 2px; font-size: 11px; }
+    .thermal-print .thermal-slip .right { text-align: right; }
+    .thermal-print .thermal-slip .totals td { border: none; padding: 2px; }
+    .thermal-print .thermal-slip .totals tr:last-child td { font-weight: bold; border-top: 1px dashed #000; }
+}
+
+/* Quick Search */
+.quick-search { margin-bottom: 10px; width: 100%; max-width: 400px; }
+
+/* Install App Banner */
+#install-banner { display: none; background: var(--c); border: 1px solid var(--a); border-radius: 8px; padding: 12px; margin: 10px 0; align-items: center; justify-content: space-between; gap: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+#install-banner.show { display: flex; }
+
+/* Entry Mode Toggle & Scanner Box */
+.entry-mode-box { border: 1px solid var(--b); background: var(--bg); border-radius: 10px; padding: 12px; margin: 10px 0; }
+.entry-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.entry-tabs button { flex: 1; min-width: 180px; padding: 10px 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.scan-panel { border: 2px dashed var(--a); border-radius: 10px; padding: 16px; text-align: center; background: var(--c); margin-top: 8px; }
+.scan-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+.scan-summary { margin-top: 10px; padding: 10px; border-radius: 8px; background: var(--bg); border: 1px solid var(--b); text-align: left; font-size: 13px; }
+
+</style></head><body>
+<div id="app">
+    <nav id="nav"></nav>
+    <main id="v"></main>
+</div>
+<div id="ov"></div><div id="lg"></div>
+<script>
+const STATES=["Andaman & Nicobar Islands","Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chandigarh","Chhattisgarh","Dadra & Nagar Haveli and Daman & Diu","Delhi","Goa","Gujarat","Haryana","Himachal Pradesh","Jammu & Kashmir","Jharkhand","Karnataka","Kerala","Ladakh","Lakshadweep","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Puducherry","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal"];const SC={"Andaman & Nicobar Islands":"35","Andhra Pradesh":"37","Arunachal Pradesh":"12","Assam":"18","Bihar":"10","Chandigarh":"04","Chhattisgarh":"22","Dadra & Nagar Haveli and Daman & Diu":"26","Delhi":"07","Goa":"30","Gujarat":"24","Haryana":"06","Himachal Pradesh":"02","Jammu & Kashmir":"01","Jharkhand":"20","Karnataka":"29","Kerala":"32","Ladakh":"38","Lakshadweep":"31","Madhya Pradesh":"23","Maharashtra":"27","Manipur":"14","Meghalaya":"17","Mizoram":"15","Nagaland":"13","Odisha":"21","Puducherry":"34","Punjab":"03","Rajasthan":"08","Sikkim":"11","Tamil Nadu":"33","Telangana":"36","Tripura":"16","Uttar Pradesh":"09","Uttarakhand":"05","West Bengal":"19"};
+let D={};try{D=JSON.parse(localStorage.getItem('sathi'))||{}}catch(e){}
+const DEFAULT_API_KEY=String.fromCharCode(...[65, 81, 46, 65, 98, 56, 82, 78, 54, 76, 53, 51, 108, 83, 48, 53, 115, 107, 86, 119, 82, 100, 88, 112, 57, 57, 117, 122, 120, 119, 69, 85, 89, 85, 107, 82, 87, 112, 112, 84, 50, 50, 90, 72, 70, 56, 98, 85, 57, 56, 90, 109, 119]);
+D=Object.assign({p:{state:'West Bengal'},c:[],pr:[],b:[],e:[],r:[],py:[],pu:[],drafts:[],sp:[],sy:[],log:[],orders:[],apiKey:DEFAULT_API_KEY,aiOk:1},D);
+if(!D.apiKey)D.apiKey=DEFAULT_API_KEY;
+D.drafts=D.drafts||[];D.orders=D.orders||[];
+let entryMode='manual',ordEntryMode='manual';
+let _sf=0;const save=()=>{try{localStorage.setItem('sathi',JSON.stringify(D))}catch(e){if(!_sf){_sf=1;alert('WARNING: your data could not be saved on this device (storage full or blocked). Please download a backup now.')}}};
+const $=i=>document.getElementById(i),key=s=>(s||'').trim().toLowerCase(),uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const f=n=>'₹'+(+n||0).toLocaleString('en-IN',{maximumFractionDigits:2});
+const sum=(a,g)=>a.reduce((s,x)=>s+(+g(x)||0),0);
+const iso=d=>new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10),today=()=>iso(new Date());
+const opts=(a,v)=>a.map(x=>`<option${x==v?' selected':''}>${esc(x)}</option>`).join('');
+const dl=(id,a)=>`<datalist id="${id}">${[...new Set(a.filter(Boolean))].map(x=>`<option value="${esc(x)}">`).join('')}</datalist>`;
+const tbl=(h,r)=>`<div class="sc"><table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${r.map(x=>`<tr>${x.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')||`<tr><td colspan=${h.length} class=m>No records</td></tr>`}</table></div>`;
+const F=(id,l,v='',t='text',x='')=>`<div><label>${l}</label><input id="${id}" type="${t}" value="${esc(v)}" ${x}></div>`;
+const v=i=>$(i)?String($(i).value??'').trim():'';
+
+let cStartDate = today(), cEndDate = today();
+function rng(p){
+const n=new Date(),y=n.getFullYear(),m=n.getMonth(),d=n.getDate();let a,b;
+if(p=='custom') return [cStartDate, cEndDate];
+if(p=='all')return['0000','9999'];
+if(p=='week'){const w=(n.getDay()+6)%7;a=new Date(y,m,d-w);b=new Date(y,m,d-w+6)}
+else if(p=='month'){a=new Date(y,m,1);b=new Date(y,m+1,0)}
+else if(p=='quarter'){const q=m>=3?3+Math.floor((m-3)/3)*3:0;a=new Date(y,q,1);b=new Date(y,q+3,0)}
+else{const s=m>=3?y:y-1;a=new Date(s,3,1);b=new Date(s+1,3,0)}return[iso(a),iso(b)]}
+const PN={all:'All time',week:'This week',month:'This month',quarter:'This quarter (FY)',year:'This financial year (Apr–Mar)', custom: 'Custom period'};
+
+const bal=(n,ty)=>{const k=key(n),m=x=>key(x.cust)==k&&(!ty||(x.t||'P')==ty);return sum(D.b.filter(m),x=>x.total-x.paid)-sum(D.py.filter(m),x=>x.amt)-sum(D.r.filter(m),x=>x.amt)};
+function T(p,ty){const[a,b]=rng(p),ir=x=>x.date>=a&&x.date<=b&&(!ty||(x.t||'P')==ty),bl=D.b.filter(ir),ret=D.r.filter(ir),pu=D.pu.filter(ir),ex=D.e.filter(ir);
+const o={bl,ret,pu,ex,a,b,ir};o.sales=sum(bl,x=>x.sub+x.del);o.rt=sum(ret,x=>x.amt);o.pt=sum(pu,x=>x.qty*x.cost);o.et=sum(ex,x=>x.amt);
+o.paid=sum(bl,x=>x.paid)+sum(D.py.filter(ir),x=>x.amt);o.itc=sum(pu,x=>x.gst||0);const pc=n=>(D.pr.find(x=>key(x.name)==key(n))||{}).cost||0;o.cogs=sum(bl,b=>sum(b.items,i=>(i.q||0)*(i.cost??pc(i.d))));o.rcogs=sum(ret,r=>(r.qty||0)*pc(r.item));o.gp=o.sales-o.rt-(o.cogs-o.rcogs);o.net=o.gp-o.et;
+o.dues=[...new Set(D.b.filter(x=>!ty||x.t==ty).map(x=>x.cust))].map(n=>[n,bal(n,ty)]).filter(x=>x[1]>0.005);o.due=sum(o.dues,x=>x[1]);return o}
+function TB(ir){const m={},add=(k,d,c)=>{m[k]=m[k]||[0,0];m[k][0]+=d;m[k][1]+=c};
+D.b.filter(ir).forEach(x=>{add('Cash',x.paid,0);add('Debtors',x.total-x.paid,0);add('Sales',0,x.sub+x.del);add('GST Output',0,x.tax);if(x.round)add('Round off',x.round<0?-x.round:0,x.round>0?x.round:0)});
+D.py.filter(ir).forEach(x=>{add('Cash',x.amt,0);add('Debtors',0,x.amt)});D.r.filter(ir).forEach(x=>{add('Sales Returns',x.amt,0);add('Debtors',0,x.amt)});
+D.e.filter(ir).forEach(x=>{add('Expense: '+x.cat,x.amt,0);x.paid?add('Cash',0,x.amt):add('Payables',0,x.amt)});
+D.pu.filter(ir).forEach(x=>{const g=x.gst||0,tot=x.qty*x.cost+g,pd=x.paid??tot;add('Purchases',x.qty*x.cost,0);if(g)add('Input GST',g,0);add('Cash',0,pd);if(tot-pd>0.005)add('Creditors (suppliers)',0,tot-pd)});D.sy.filter(ir).forEach(x=>{add('Creditors (suppliers)',x.amt,0);add('Cash',0,x.amt)});return m}
+let pg=0,per='all',bt='P',selC=null;
+const NAV=['Dashboard','Customers','Billing','Orders','Stock','Expenses','Reports','Suppliers'];
+
+// Modification: Re-check banner visibility every time a view changes
+function go(i){pg=i;$('nav').innerHTML=NAV.map((n,j)=>`<button class="${j==i?'on':''}" onclick="go(${j})">${n}</button>`).join('')+(D.auth?`<button class="o" onclick="logout()">Log out</button>`:'');{const h=bkBanner()+[pDash,pCust,pBill,pOrders,pStock,pExp,pRep,pSup][i]();$('v').innerHTML=h+(h.includes('id="pdl"')?'':dl('pdl',D.pr.map(x=>x.name)))}if(i==2)calc();if(i==1)listC();checkInstallBanner();}
+
+function show(h, isThermal=false){
+    document.body.className = isThermal ? 'ov thermal-print' : 'ov';
+    $('ov').innerHTML=`<div class="np" style="padding-bottom:10px;"><button onclick="window.print()">Print / Save as PDF</button> <button class="o" onclick="document.body.className='';$('ov').innerHTML=''">Close</button></div>`+h;
+}
+
+const pb=()=>`<button class="o np" onclick="window.print()">Print / Save PDF</button>`;
+
+/* DATA BACKUP & EXPORT */
+function dlFile(name,text,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)}
+function exportBackup(){D.lastBackup=today();logA('Backup downloaded','');save();dlFile(`Sathi_Enterprise_Backup_${today()}.json`,JSON.stringify(D,(k,x)=>k==='apiKey'?undefined:x),'application/json')}
+function triggerImport() { $('importFile').click(); }
+function importBackup(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const importedData = JSON.parse(e.target.result);
+            if (importedData && importedData.p) {
+                if (confirm('Are you sure you want to restore this backup? It will OVERWRITE all current data.')) {
+                    const _ak=D.apiKey;delete importedData.apiKey;D = Object.assign({p:{state:'West Bengal'},c:[],pr:[],b:[],e:[],r:[],py:[],pu:[],drafts:[],sp:[],sy:[],log:[],orders:[]}, importedData);D.apiKey=_ak||DEFAULT_API_KEY;if(!D.cats)D.cats=CAT10.map((n,i)=>({id:'c'+i,name:n,subs:[]}));
+                    save();
+                    logA('Backup restored','');save();alert('Backup restored successfully!');
+                    go(0);
+                }
+            } else { alert('Invalid backup file.'); }
+        } catch(err) { alert('Error parsing backup file.'); }
+    };
+    reader.readAsText(file);e.target.value='';
+}
+
+function exportCsv(type) {
+    let rows = [];
+    if (type === 'reports') {
+        const t = T(rp, rt);
+        rows.push(['Date', 'Bill No', 'Customer', 'Type', 'Amount']);
+        t.bl.forEach(x => rows.push([x.date, x.no, x.cust, x.t=='P'?'Pakka':'Kacha', (x.sub+x.del).toFixed(2)]));
+    } else if (type === 'customers') {
+        rows.push(['Name', 'Phone', 'City', 'Due Balance']);
+        D.c.forEach(c => rows.push([c.name, c.phone, c.city, bal(c.name).toFixed(2)]));
+    }
+    dlFile(`${type}_export_${today()}.csv`,'\ufeff'+rows.map(e => e.map(escCsv).join(",")).join("\n"),'text/csv;charset=utf-8');
+}
+const escCsv = (s) => `"${String(s||'').replace(/"/g, '""')}"`;
+
+
+/* PWA INSTALLATION */
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    checkInstallBanner();
+});
+
+// Detect if already running in standalone mode (installed)
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+function checkInstallBanner() {
+    const b = document.getElementById('install-banner');
+    if (b) {
+        if (deferredPrompt && !isStandalone) {
+            b.classList.add('show');
+        } else {
+            b.classList.remove('show');
+        }
+    }
+}
+async function installPWA() {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+            deferredPrompt = null;
+            checkInstallBanner();
+        }
+    }
+}
+
+
+/* DASHBOARD */
+function G(l,t){const S=(a,x)=>`<div class="card st">${a}<b>${x}</b></div>`;return `<h3>${l}</h3><div class="g">${S('Total sales',f(t.sales))}${S('Total purchase',f(t.pt))}${S('Bills generated',t.bl.length)}${S('Bills payment received',f(t.paid))}${S('Bills due (all time)',f(t.due))}${S('Total expenses',f(t.et))}${S('Net profit',f(Math.max(t.net,0)))}${S('Net loss',f(Math.max(-t.net,0)))}${S('Cost of goods sold',f(t.cogs-t.rcogs))}${S('Gross profit',f(t.gp))}${S('Goods returned',f(t.rt))}</div>`}
+
+function renderRecentBills(filterText = '', type = '', lim = 10) {
+    const s = key(filterText);
+    const bills = D.b.filter(b => (!type || b.t == type) && (key(b.cust).includes(s) || key(b.no).includes(s) || key(b.phone).includes(s))).reverse().slice(0, lim);
+    return tbl(['No','Date','Customer','Type','Total','Paid',''], bills.map(b=>[esc(b.no),b.date,esc(b.cust),b.t=='P'?'Pakka':'Kacha',f(b.total),f(b.paid),`<button class="o" onclick="viewB('${b.id}')">View</button> <button class="o" onclick="editB('${b.id}')">Edit</button> <button class="o" onclick="printB('${b.id}')">Print</button> <button class="x" onclick="delB('${b.id}')">×</button>`]));
+}
+function delB(id){const b=D.b.find(x=>x.id==id);if(!b)return;if(!confirm('Delete bill '+b.no+' ('+b.cust+')? Its items will be put back into stock.'))return;b.items.forEach(i=>{const p=D.pr.find(x=>key(x.name)==key(i.d));if(p)p.qty+=(+i.q||0)});logA('Bill deleted',b.no+' · '+b.cust+' · '+f(b.total));D.b=D.b.filter(x=>x.id!=id);save();go(pg)}
+
+function pDash(){const p=D.p,t=T(per),S=(l,x)=>`<div class="card st">${l}<b>${x}</b></div>`;
+const lowStock = D.pr.filter(x => x.min != null && x.qty <= x.min);
+
+return `
+<!-- Added ID for install banner here -->
+<div id="install-banner">
+    <div>
+        <b>Install Sathi App</b><br>
+        <span class="m" style="font-size:12px;">Add this app to your home screen or desktop for full-screen offline access.</span>
+    </div>
+    <button onclick="installPWA()">Install App</button>
+</div>
+
+<div class="card"><h3>Business Profile</h3><div class="pf"><div><div class="g">${F('pn','Company name',p.name||'Sathi Enterprise')}${F('pa','Address',p.addr)}${F('pc','City',p.city,'text','list=cl')}
+<div><label>State</label><select id="ps" onchange="$('psc').value=SC[this.value]||''">${opts(STATES,p.state)}</select></div>${F('psc','State code (GST)',p.sc||SC[p.state]||'','text','maxlength=2 inputmode=numeric')}${F('pp','PIN code',p.pin,'text','maxlength=6 inputmode=numeric list=pl2')}${F('ph','Phone',p.phone,'tel')}${F('pe','Gmail address',p.email,'email','placeholder=yourname@gmail.com autocomplete=off')}${F('pg','GSTIN',p.gstin,'text','maxlength=15 style="text-transform:uppercase"')}${F('pst','Nearby station',p.station)}${F('ppo','Post office',p.post)}${F('ppl','Police station',p.police)}${F('ptr','Transport details',p.transport)}</div></div><div class="bk"><h3>Bank details</h3>${F('bk','Bank name',p.bank)}${F('bbr','Bank branch',p.branch)}${F('bac','Account number',p.acno,'text','inputmode=numeric maxlength=18')}${F('bif','IFSC code',p.ifsc,'text','maxlength=11 style="text-transform:uppercase"')}</div></div>
+${dl('cl',D.c.map(x=>x.city))}${dl('pl2',D.c.map(x=>x.pin))}<p><button onclick="saveP()">Save profile</button></p></div>${secCard()}
+
+<div class="card np" style="background:#eefdf8; border-color:#3fc3a0;">
+    <h3>Data Management & Backup</h3>
+    <p class="st">Protect your data by saving a backup file to your device regularly.</p>
+    <button onclick="exportBackup()">Download Backup (.json)</button>
+    <button class="o" onclick="triggerImport()">Restore Backup</button>
+    <input type="file" id="importFile" style="display:none" accept=".json" onchange="importBackup(event)">
+</div>
+
+<div class="card np"><label>Period</label><select onchange="per=this.value;go(0)">${Object.keys(PN).map(k=>`<option value=${k}${k==per?' selected':''}>${PN[k]}</option>`).join('')}</select>
+<p>Reports: ${['week','month','quarter','year'].map(k=>`<button class="o" onclick="rp='${k}';go(6)">${{week:'Weekly',month:'Monthly',quarter:'Quarterly',year:'Annual'}[k]}</button>`).join(' ')}</p></div>
+
+${lowStock.length ? `<div class="card" style="border-left: 4px solid var(--r);"><h3>Low Stock Alert (${lowStock.length} items)</h3><div class="st">Some items are running low. Check Stock tab.</div></div>` : ''}
+
+${G('Pakka (GST) billing – separate record',T(per,'P'))}${G('Kacha billing – separate record',T(per,'K'))}<h3>Combined total (Pakka + Kacha)</h3><div class="g">${S('Total sales',f(t.sales))}${S('Total purchase',f(t.pt))}${S('Bills generated',t.bl.length)}${S('Bills payment received',f(t.paid))}${S('Bills due (all time)',f(t.due))}${S('Total expenses',f(t.et))}${S('Net profit',f(Math.max(t.net,0)))}${S('Net loss',f(Math.max(-t.net,0)))}${S('Cost of goods sold',f(t.cogs-t.rcogs))}${S('Gross profit',f(t.gp))}${S('Goods returned',f(t.rt))}${S('Stock value now',f(sum(D.pr,x=>x.qty*x.cost)))}${S('Payable to suppliers',f(sum(D.sp,x=>supBal(x.id))))}${S('Pending orders',D.orders.filter(o=>!o.done).length)}</div>
+<p class="st">Net profit = Sales − Returns − Cost of goods sold − Expenses. Purchases go into stock and are charged to profit only when the goods are sold. Cost comes from the Rate in Stock at the time of sale.</p>
+
+<div class="card">
+    <h3>Recent finalised bills</h3>
+    <input type="text" class="quick-search" placeholder="Search bills by name, phone, or bill no..." oninput="$('recentBillsTable').innerHTML=renderRecentBills(this.value)">
+    <div id="recentBillsTable">${renderRecentBills()}</div>
+</div>
+`
+}
+function saveP(){if(v('pe')&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('pe')))return alert('Enter a valid Gmail / email address');if(v('bac')&&!/^\d{9,18}$/.test(v('bac')))return alert('Account number must be 9 to 18 digits');if(v('bif')&&!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(v('bif').toUpperCase()))return alert('IFSC code must be 11 characters, like SBIN0001234');D.p={...D.p,name:v('pn'),addr:v('pa'),city:v('pc'),state:v('ps'),pin:v('pp'),phone:v('ph'),email:v('pe'),sc:v('psc'),gstin:v('pg').toUpperCase(),station:v('pst'),post:v('ppo'),police:v('ppl'),transport:v('ptr'),bank:v('bk'),branch:v('bbr'),acno:v('bac'),ifsc:v('bif').toUpperCase()};save();alert('Profile saved');go(0)}
+/* CUSTOMERS */
+function pCust(){const q=key(selC&&selC.q);return `<div class="card"><h3>Customer record</h3><input type=hidden id=cid><div class="g">${F('cn','Name')}${F('ca','Address')}${F('cc','City / locality','','text','list=cl')}<div><label>State</label><select id="cs" onchange="$('csc').value=SC[this.value]||''">${opts(STATES,D.p.state)}</select></div>${F('csc','State code','', 'text','maxlength=2 inputmode=numeric')}${F('cp','PIN code','','text','maxlength=6 inputmode=numeric list=pl2')}${F('cph','Phone','','tel')}${F('cw','WhatsApp number','','tel')}${F('cb','Bank / UPI (GPay, PhonePe…)')}${F('ct','Transport details')}${F('cg','GST number','','text','maxlength=15 style="text-transform:uppercase"')}</div>
+${dl('cl',D.c.map(x=>x.city))}${dl('pl2',D.c.map(x=>x.pin))}<p><button onclick="saveC()">Save customer</button></p></div>
+<div class="card np"><button class="o" onclick="exportCsv('customers')">Export Customers to Excel (CSV)</button></div>
+<input id="cq" placeholder="Search customer by name, phone, city…" oninput="listC()" class="np"><div id="cl2"></div><div id="cd"></div>`}
+function listC(){const q=key($('cq').value);$('cl2').innerHTML=tbl(['Name','Phone','City','Due',''],D.c.filter(c=>key([c.name,c.phone,c.wa,c.city,c.addr].join(' ')).includes(q)).map(c=>[esc(c.name),esc(c.phone),esc(c.city),f(bal(c.name)),`<button class=o onclick="openC('${c.id}')">Open</button>`]))}
+function saveC(){const n=v('cn');if(!n)return alert('Name required');const pin=v('cp');if(pin&&!/^\d{6}$/.test(pin))return alert('PIN must be 6 digits');const gs=v('cg').toUpperCase();if(gs&&!/^[0-9A-Z]{15}$/.test(gs))return alert('GST number must be 15 letters/digits');
+const o={id:v('cid')||uid(),name:n,addr:v('ca'),city:v('cc'),state:v('cs'),sc:v('csc')||SC[v('cs')]||'',pin,phone:v('cph'),wa:v('cw'),pay:v('cb'),transport:v('ct'),gstin:v('cg').toUpperCase()};const i=D.c.findIndex(x=>x.id==o.id);
+if(D.c.some(x=>x.id!=o.id&&key(x.name)==key(n)))return alert('A customer with this name exists');if(i>=0){const on=D.c[i].name;if(on!==n){const mv=a=>(a||[]).forEach(x=>{if(key(x.cust)==key(on))x.cust=n});mv(D.b);mv(D.py);mv(D.r);mv(D.drafts)}D.c[i]=o}else D.c.push(o);logA(i>=0?'Customer edited':'Customer added',n);save();go(1);openC(o.id)}
+function openC(id){const c=D.c.find(x=>x.id==id);if(!c)return;const k=key(c.name),m=x=>key(x.cust)==k;
+const tx=[...D.b.filter(m).map(x=>({d:x.date,t:(x.t=='P'?'Pakka':'Kacha')+' bill '+x.no,dr:x.total,cr:x.paid,k:'b',i:x.id})),...D.py.filter(m).map(x=>({d:x.date,t:'Payment received ('+((x.t||'P')=='K'?'Kacha':'Pakka')+')',dr:0,cr:x.amt,k:'p',i:x.id})),...D.r.filter(m).map(x=>({d:x.date,t:'Goods return ('+((x.t||'P')=='K'?'Kacha':'Pakka')+'): '+x.item,dr:0,cr:x.amt,k:'r',i:x.id}))].sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
+let r=0;const rows=[],rowsUI=[];tx.forEach(x=>{const row=[x.d,esc(x.t),x.dr?f(x.dr):'',x.cr?f(x.cr):'',f(r+=x.dr-x.cr)];rows.push(row);rowsUI.push([...row,x.k=='b'?`<button class=\"o np\" onclick=\"viewB('${x.i}')\">View</button>`:`<button class=\"x np\" onclick=\"delTx('${x.k}','${x.i}','${id}')\">×</button>`])});window._st={c,rows,r};
+$('cd').innerHTML=`<div class="card"><h3>${esc(c.name)}</h3><p>${esc(c.addr)}, ${esc(c.city)}, ${esc(c.state)} (Code: ${esc(c.sc||SC[c.state]||'')}) ${esc(c.pin)}<br>Phone ${esc(c.phone)} · WhatsApp ${esc(c.wa)}<br>Bank/UPI: ${esc(c.pay)} · Transport: ${esc(c.transport)}${c.gstin?' · GST: '+esc(c.gstin):''}</p>
+<p><b>Payable by customer: ${f(r)}</b> · Billed ${f(sum(D.b.filter(m),x=>x.total))} · Paid ${f(sum(D.b.filter(m),x=>x.paid)+sum(D.py.filter(m),x=>x.amt))}</p>
+<p class=np><button class=o onclick="editC('${id}')">Edit</button> <button class=o onclick="stmt()">Statement (print / PDF)</button> <button class=x onclick="delC('${id}')">Delete</button></p>
+<div class="g np">${F('pyA','Payment received (₹)','','number')}${F('pyD','Date',today(),'date')}<div><label>Against</label><select id="pyT"><option value="P">Pakka bills</option><option value="K">Kacha bills</option></select></div><div><label>&nbsp;</label><button onclick="addPy('${id}')">Record payment</button></div></div>
+<h4>Transaction history</h4>${tbl(['Date','Details','Billed','Paid/Credit','Balance',''],rowsUI)}</div>`;$('cd').scrollIntoView()}
+function editC(id){const c=D.c.find(x=>x.id==id);$('cid').value=id;[['cn','name'],['ca','addr'],['cc','city'],['cs','state'],['csc','sc'],['cp','pin'],['cph','phone'],['cw','wa'],['cb','pay'],['ct','transport'],['cg','gstin']].forEach(([a,b])=>$(a).value=c[b]||'');scrollTo(0,0)}
+function delC(id){if(confirm('Delete this customer record? Bills remain.')){logA('Customer deleted',(D.c.find(x=>x.id==id)||{}).name);D.c=D.c.filter(x=>x.id!=id);save();go(1)}}
+function addPy(cid){const c=D.c.find(x=>x.id==cid);if(!c)return;const a=+v('pyA');if(!a||a<=0)return alert('Enter the payment amount');D.py.push({id:uid(),date:v('pyD')||today(),cust:c.name,amt:a,t:v('pyT')});logA('Payment received',c.name+' · '+f(a));save();openC(cid);listC()}
+function delTx(k,id,cid){if(!confirm(k=='p'?'Delete this payment entry?':'Delete this goods return? The stock it added back will be removed again.'))return;if(k=='p')D.py=D.py.filter(x=>x.id!=id);else{const r=D.r.find(x=>x.id==id);if(r){const p=D.pr.find(x=>key(x.name)==key(r.item));if(p)p.qty=Math.max(0,p.qty-(+r.qty||0))}D.r=D.r.filter(x=>x.id!=id)}logA(k=='p'?'Payment deleted':'Goods return deleted',id);save();openC(cid);listC()}
+function stmt(){const s=window._st,c=s.c,p=D.p;show(`<div class="inv"><h2>${esc(p.name||'Sathi Enterprise')}</h2><p>${esc(p.addr||'')} ${esc(p.phone||'')}</p><h3>Statement of account</h3><p><b>${esc(c.name)}</b><br>${esc(c.addr)}, ${esc(c.city)} ${esc(c.pin)}<br>Phone ${esc(c.phone)}<br>Printed ${today()}</p>${tbl(['Date','Details','Billed','Paid/Credit','Balance'],s.rows)}<h3>Closing balance payable: ${f(s.r)}</h3></div>`)}
+/* BILLING */
+function pBill(){const nx=t=>{let m=0;[...D.b,...(D.drafts||[])].filter(x=>x.t==t).forEach(x=>{const k=parseInt(String(x.no).replace(/\D+/g,' ').trim().split(' ').pop(),10);if(k>m)m=k});return t+'-'+String(m+1).padStart(4,'0')};
+const drafts=(D.drafts||[]).filter(x=>x.t==bt);
+return `<div class="card np"><button class="${bt=='P'?'':'o'}" onclick="bt='P';go(2)">Pakka billing</button> <button class="${bt=='K'?'':'o'}" onclick="bt='K';go(2)">Kacha billing</button></div>
+<div class="card"><h3>${bt=='P'?'Pakka GST Tax Invoice':'Kacha bill'}</h3>${bt=='P'?`<p class="st">GST tax invoice – print-ready A4 format matching the Sathi Enterprise paper invoice.</p>`:`<p class="st">Kacha bill – none of your company details are printed on this bill.</p>`}
+<input type="hidden" id="bid"><div class="g">${F('bno','Invoice no',nx(bt))}${F('bd','Invoice date',today(),'date')}<div>${F('bn','Customer name','','text','list=cn onchange="fillC()" autocomplete=off')}<span id="bm" class="st"></span></div>${F('ba','Billed to – address')}${F('bc','City / locality','','text','list=cl')}<div><label>State</label><select id="bs" onchange="syncBillCodes()">${opts(STATES,D.p.state)}</select></div>${F('bsc','State code','', 'text','maxlength=2 inputmode=numeric')}${F('bpn','PIN code','','text','maxlength=6 list=pl2')}${F('bph','Phone','','tel')}${bt=='P'?F('bg','Customer GSTIN','','text','maxlength=15 style="text-transform:uppercase"'):''}</div>
+${bt=='P'?`<h4>Billed to / Shipped to</h4><div class="g">${F('bship','Shipped to – name (blank = same as billed to)')}${F('bshipaddr','Shipped-to address')}${F('bshipcity','Shipped-to city') }<div><label>Shipped-to state</label><select id="bshipstate" onchange="$('bshipscc').value=SC[this.value]||''">${opts(STATES,D.p.state)}</select></div>${F('bshipscc','Shipped-to state code',SC[D.p.state]||'','text','maxlength=2')}${F('bshipgst','Shipped-to GSTIN')}${F('bhsn','HSN code')}${F('bmode','Transportation mode')}${F('bveh','Vehicle number')}${F('bterms','Terms & conditions')}</div>`:''}
+${dl('cn',D.c.map(x=>x.name))}${dl('cl',D.c.map(x=>x.city))}${dl('pl2',D.c.map(x=>x.pin))}${dl('pdl',D.pr.map(x=>x.name))}
+<h4>Product details – Choose Entry Option</h4>
+<div class="entry-mode-box np">
+    <div class="entry-tabs">
+        <button class="${entryMode==='manual'?'':'o'}" onclick="setEntryMode('manual')">⌨️ Option 1: Manually Enter Numbers</button>
+        <button class="${entryMode==='scan'?'':'o'}" onclick="setEntryMode('scan')">📷 Option 2: Scan a Photo (Study, Analyze &amp; Calculate)</button>
+        <button class="o" style="flex:0;min-width:auto" onclick="aiSettings()" title="AI Key &amp; Model Settings">⚙️ AI Key</button>
+    </div>
+    <div id="manualHint" style="display:${entryMode==='manual'?'block':'none'}" class="st">
+        <b>Manual Entry Mode:</b> Type product descriptions, quantities, and rates directly into the rows below, or use the Quick Number Calculator to multiply &amp; sum rows.
+        <span style="margin-left:8px"><button class="o" style="padding:3px 8px;font-size:12px" onclick="addRow()">+ Add Row</button></span>
+    </div>
+    <div id="scanPanel" class="scan-panel" style="display:${entryMode==='scan'?'block':'none'}">
+        <b>📷 AI Photo Scanner – Study, Analyze &amp; Auto-Calculate</b>
+        <p class="st" style="margin:4px 0 8px 0">Upload or snap a photo of any handwritten slip, printed bill, or rate chart. The app will study the image, extract Description, Quantity &amp; Rate (or multiply Qty × Rate columns), populate the billing chart below, and calculate all totals automatically.</p>
+        <input type="file" id="billScanCam" accept="image/*" capture="environment" style="display:none" onchange="processBillImage(this)">
+        <input type="file" id="billScanFile" accept="image/*" multiple style="display:none" onchange="processBillImage(this)">
+        <div class="scan-actions">
+            <button onclick="document.getElementById('billScanCam').click()">📸 Take Photo (Camera)</button>
+            <button class="o" onclick="document.getElementById('billScanFile').click()">🖼️ Upload Photo(s) from Device</button>
+            <label style="display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--t)"><input type="checkbox" id="scanAppend" style="width:auto" checked> Append to existing rows</label>
+        </div>
+        <div id="scanStatus" class="st" style="margin-top:8px"></div>
+        <div id="scanAnalysisBox" class="scan-summary" style="display:none"></div>
+    </div>
+</div>${bt=='P'?`<div class="sc"><div class="itemhead"><span>Sl.</span><span>Product name</span><span>Qty.</span><span>Unit</span><span>Rate</span><span>Total</span><span>Discount</span><span>CGST %</span><span>CGST ₹</span><span>SGST %</span><span>SGST ₹</span><span>IGST %</span><span>IGST ₹</span></div><div id="rows"></div></div>`:`<div id="rows"></div>`}<button class="o" onclick="addRow()">+ Add item</button>
+<div class="g" style="margin-top:10px">${bt=='P'?`<div><label>GST rate for items</label><select id="bgr" onchange="calc()">${[0,5,12,18,28].map(x=>`<option${x==18?' selected':''}>${x}</option>`).join('')}</select></div>`:`<input type="hidden" id="bgr" value="0">`}${F('bdel','Freight / transport charges','0','number','oninput=calc()')}${F('btdis','Overall bill discount (₹)','0','number','oninput=calc()')}${F('bpd','Amount paid now','0','number','oninput=calc()')}</div>
+<div class="card" style="background:var(--bg)"><h4>Invoice calculation</h4><div id="bt" aria-live="polite"></div><p id="bwords" class="st"></p></div>
+<button onclick="window._pr=0;saveBill()">${bt=='P'?'Save & Finalise Invoice':'Generate bill'}</button> <button class="o" onclick="saveDraft()">Save as Draft</button> <button class="o" onclick="window._pr=1;saveBill()">Generate &amp; Print</button> <button class="o" onclick="clearBillForm()">Clear form</button></div>
+${drafts.length?`<div class="card"><h3>Saved drafts (${drafts.length})</h3>${tbl(['Invoice no.','Date','Customer','Last saved',''],drafts.map(d=>[esc(d.no),esc(d.date),esc(d.cust||'—'),esc(d.savedAt||''),`<button class="o" onclick="loadDraft('${d.id}')">Open</button> <button class="x" onclick="deleteDraft('${d.id}')">Delete</button>`]))}</div>`:''}
+<div class="card np"><h3>Previous ${bt=='P'?'Pakka':'Kacha'} bills</h3><input class="quick-search" placeholder="Search by name, phone or bill no..." oninput="$('billList').innerHTML=renderRecentBills(this.value,'${bt}',30)"><div id="billList">${renderRecentBills('',bt,30)}</div></div>
+<div class="card"><h3>Goods return</h3><div class="g">${F('rd','Date',today(),'date')}<div><label>Return against</label><select id="rtp"><option value="P"${bt=='P'?' selected':''}>Pakka bill</option><option value="K"${bt=='K'?' selected':''}>Kacha bill</option></select></div>${F('rc','Customer','','text','list=cn')}${F('ri','Item','','text','list=pdl')}${F('rq','Qty','','number')}${F('ra','Amount credited','','number')}<div><label>&nbsp;</label><button onclick="addR()">Save return</button></div></div></div>`}
+function syncBillCodes(){if($('bsc'))$('bsc').value=SC[v('bs')]||''}
+function clearBillForm(){go(2)}
+function saveDraft(){
+const z = calc();
+const it = z.items.filter(i=>i.d);
+it.forEach(i => { i.origDisc = i.disc; i.disc = i.effDisc; });
+if(!v('bn'))return alert('Enter customer name or a draft reference before saving.');const d={id:v('bid')||uid(),t:bt,no:v('bno'),date:v('bd'),cust:v('bn'),addr:v('ba'),city:v('bc'),st:v('bs'),sc:v('bsc'),pin:v('bpn'),phone:v('bph'),gstin:v('bg')||'',ship:v('bship')||'',shipaddr:v('bshipaddr')||'',shipcity:v('bshipcity')||'',shipst:v('bshipstate')||'',shipscc:v('bshipscc')||'',shipgst:v('bshipgst')||'',hsn:v('bhsn')||'',mode:v('bmode')||'',vehicle:v('bveh')||'',terms:v('bterms')||'',items:it,gr:+(v('bgr')||0),del:+v('bdel')||0,overallDisc:z.overallDisc,paid:+v('bpd')||0,tr:v('btr')||'',savedAt:new Date().toLocaleString('en-IN')};D.drafts=D.drafts||[];const i=D.drafts.findIndex(x=>x.id==d.id);if(i>=0)D.drafts[i]=d;else D.drafts.push(d);save();alert('Draft saved. You can reopen it from Saved drafts.');go(2);loadDraft(d.id)}
+function deleteDraft(id){if(!confirm('Delete this draft?'))return;D.drafts=(D.drafts||[]).filter(x=>x.id!=id);save();go(2)}
+function loadDraft(id,src){const d=src||(D.drafts||[]).find(x=>x.id==id);if(!d)return;bt=d.t;go(2);$('bid').value=d.id;[['bno','no'],['bd','date'],['bn','cust'],['ba','addr'],['bc','city'],['bs','st'],['bsc','sc'],['bpn','pin'],['bph','phone'],['bg','gstin'],['bship','ship'],['bshipaddr','shipaddr'],['bshipcity','shipcity'],['bshipstate','shipst'],['bshipscc','shipscc'],['bshipgst','shipgst'],['bhsn','hsn'],['bmode','mode'],['bveh','vehicle'],['bterms','terms'],['bgr','gr'],['bdel','del'],['btdis','overallDisc'],['bpd','paid'],['btr','tr']].forEach(([a,b])=>{if($(a))$(a).value=d[b]??''});$('rows').innerHTML='';(d.items||[]).forEach(i=>{addRow();const r=$('rows').lastElementChild;r.querySelector('.d').value=i.d;r.querySelector('.q').value=i.q;r.querySelector('.r').value=i.r;if(r.querySelector('.u'))r.querySelector('.u').value=i.u||'pcs';if(r.querySelector('.dis'))r.querySelector('.dis').value=i.origDisc??i.disc??0});calc();if($('bm'))$('bm').textContent=D.c.some(x=>key(x.name)==key(v('bn')))?'✓ Found in customer records':'';scrollTo(0,0)}
+function addRow(){const d=document.createElement('div');d.className='row';if(bt=='P'){d.style.cssText='display:grid;grid-template-columns:34px minmax(150px,2fr) 58px 55px 75px 85px 78px 55px 78px 55px 78px 55px 78px;gap:4px;margin:6px 0;align-items:center;min-width:1040px';d.innerHTML=`<span class="sl">${$('rows').children.length+1}</span><input class="d" list="pdl" placeholder="Product / description" onchange="autoFillProduct(this)"><input class="q" type="number" min="0" step="0.01" placeholder="Qty" oninput="calc()"><input class="u" placeholder="Unit" value="pcs"><input class="r" type="number" min="0" step="0.01" placeholder="Rate ₹" oninput="calc()"><b class="tt">₹0.00</b><input class="dis" type="number" min="0" step="0.01" placeholder="Discount ₹" value="0" oninput="calc()"><span class="cgr">0%</span><span class="cga">₹0</span><span class="sgr">0%</span><span class="sga">₹0</span><span class="igr">0%</span><span class="iga">₹0</span>`}else{d.className='it row';d.innerHTML=`<input class="d" list="pdl" placeholder="Product" onchange="autoFillProduct(this)"><input class="q" type="number" placeholder="Qty" oninput="calc()"><input class="r" type="number" placeholder="Rate ₹" oninput="calc()"><input class="dis" type="number" min="0" step="0.01" placeholder="Disc ₹" value="0" oninput="calc()"><b class="tt">₹0</b>`}$('rows').appendChild(d)}
+
+function autoFillProduct(inputElem) {
+    const val = inputElem.value;
+    const p = D.pr.find(x => key(x.name) == key(val) || (x.desc && key(x.desc) == key(val)));
+    if (p) {
+        const row = inputElem.closest('.row');
+        if (row) {
+            const rInput = row.querySelector('.r');
+            const lr = (D.lr||{})[key(p.name)]; if (rInput && lr && (!rInput.value || rInput.value == '0')) rInput.value = lr;
+            const qInput = row.querySelector('.q');
+            if (qInput && (!qInput.value || qInput.value == '0')) qInput.value = 1;
+            const uInput = row.querySelector('.u');
+            if (uInput) uInput.value = p.unit || 'pcs';
+            calc();
+        }
+    }
+}
+
+function fillC(){const c=D.c.find(x=>key(x.name)==key(v('bn')));if($('bm'))$('bm').textContent=!v('bn')?'':c?'✓ Found in customer records':bt=='P'?'New customer – will be added to Customer Records':'Not in records';
+if(c){$('ba').value=c.addr||'';$('bc').value=c.city||'';$('bs').value=c.state||D.p.state;$('bsc').value=c.sc||SC[c.state]||'';$('bpn').value=c.pin||'';$('bph').value=c.phone||'';if($('btr'))$('btr').value=c.transport||'';if($('bg'))$('bg').value=c.gstin||'';if($('bshipstate'))$('bshipstate').value=c.state||D.p.state;if($('bshipscc'))$('bshipscc').value=c.sc||SC[c.state]||'';if($('bshipgst'))$('bshipgst').value=c.gstin||''}}
+
+function items(){return[...document.querySelectorAll('.row')].map(r=>({d:r.querySelector('.d').value.trim(),q:+r.querySelector('.q').value||0,r:+r.querySelector('.r').value||0,u:r.querySelector('.u')?.value||'pcs',disc:+(r.querySelector('.dis')?.value||0)}))}
+function calc(){if(!$('rows'))return;if(!$('rows').children.length)addRow();
+const intra=key(v('bs')||D.p.state)==key(D.p.state), gstRate=+(v('bgr')||0);
+const overallDisc = +(v('btdis')||0);
+const useOverall = overallDisc > 0;
+const it = items();
+const gross = sum(it, i => i.q * i.r);
+
+document.querySelectorAll('.row').forEach((r, idx)=>{
+    const i = it[idx];
+    const rowGross = i.q * i.r;
+    i.effDisc = useOverall ? (gross > 0 ? (rowGross / gross) * overallDisc : 0) : Math.min(rowGross, i.disc || 0);
+    const base = Math.max(0, rowGross - i.effDisc);
+    const tax = base * gstRate / 100;
+    r.querySelector('.tt').textContent = f(base);
+    if(r.querySelector('.cgr')){
+        r.querySelector('.cgr').textContent=intra?gstRate/2+'%':'0%';
+        r.querySelector('.cga').textContent=f(intra?tax/2:0);
+        r.querySelector('.sgr').textContent=intra?gstRate/2+'%':'0%';
+        r.querySelector('.sga').textContent=f(intra?tax/2:0);
+        r.querySelector('.igr').textContent=!intra?gstRate+'%':'0%';
+        r.querySelector('.iga').textContent=f(!intra?tax:0);
+    }
+});
+
+const discount = sum(it, i => i.effDisc);
+const sub = Math.max(0, gross - discount);
+const rate = +(v('bgr')||0);
+const tax = sub * rate / 100;
+const del = +v('bdel')||0;
+const cg = bt=='P'&&intra?tax/2:0;
+const sg = cg;
+const ig = bt=='P'&&!intra?tax:0;
+const raw = sub + tax + del;
+const round = bt=='P'?Math.round(raw)-raw:0;
+const total = raw + round;
+const paid = +v('bpd')||0;
+
+$('bt').innerHTML=`<div class="g"><div><label>Gross total</label><b>${f(gross)}</b></div><div><label>Total discount</label><b>${f(discount)}</b></div><div><label>Taxable value</label><b>${f(sub)}</b></div><div><label>CGST</label><b>${f(cg)}</b></div><div><label>SGST</label><b>${f(sg)}</b></div><div><label>IGST</label><b>${f(ig)}</b></div><div><label>Freight</label><b>${f(del)}</b></div><div><label>Gross invoice total</label><b>${f(raw)}</b></div><div><label>Round off</label><b>${f(round)}</b></div><div><label>Invoice total</label><b style="font-size:20px">${f(total)}</b></div><div><label>Amount paid</label><b>${f(paid)}</b></div><div><label>Balance due</label><b>${f(Math.max(0,total-paid))}</b></div></div>`;
+if($('bwords'))$('bwords').textContent='Amount in words: '+inWords(total);
+return {gross, discount, sub, tax, del, round, total, cg, sg, ig, intra, overallDisc, items: it}}
+
+function saveBill(){const n=v('bn');
+const z=calc();
+const it=z.items.filter(i=>i.d&&i.q>0);
+if(!n)return alert('Customer name required');if(!it.length)return alert('Add at least one item with quantity');if(!v('bno'))return alert('Bill number required');if(D.b.some(x=>x.t==bt&&x.id!=v('bid')&&key(x.no)==key(v('bno'))))return alert('Bill number '+v('bno')+' already exists. Please use a different number.');
+let c=D.c.find(x=>key(x.name)==key(n));if(!c&&bt=='P'){if(!v('ba')||!v('bph'))return alert('New customer: fill address and phone.');c={id:uid(),name:n,addr:v('ba'),city:v('bc'),state:v('bs'),sc:v('bsc')||SC[v('bs')]||'',pin:v('bpn'),phone:v('bph'),wa:'',pay:'',transport:v('btr'),gstin:v('bg').toUpperCase()};D.c.push(c)}
+const editId=v('bid'),old=editId?D.b.find(x=>x.id==editId):null;
+const stockQty=(arr)=>{const m={};(arr||[]).forEach(i=>{const k=key(i.d);m[k]=(m[k]||0)+(+i.q||0)});return m};
+const oldQty=stockQty(old?.items),newQty=stockQty(it);
+const bad=Object.keys(newQty).filter(k=>{const p=D.pr.find(x=>key(x.name)==k);return p&&(p.qty+(oldQty[k]||0)<newQty[k])});
+if(bad.length&&!confirm('Stock is lower than quantity for: '+bad.map(k=>it.find(i=>key(i.d)==k)?.d||k).join(', ')+'. Continue?'))return;
+if(old){Object.keys(oldQty).forEach(k=>{const p=D.pr.find(x=>key(x.name)==k);if(p)p.qty+=oldQty[k]||0})}
+Object.keys(newQty).forEach(k=>{const p=D.pr.find(x=>key(x.name)==k);if(p)p.qty-=newQty[k]||0});
+
+it.forEach(i => { i.origDisc = i.disc; i.disc = i.effDisc; });
+D.lr=D.lr||{};it.forEach(i=>{D.lr[key(i.d)]=i.r;const p=D.pr.find(x=>key(x.name)==key(i.d));if(p)i.cost=p.cost});
+
+const b={id:old?old.id:uid(),t:bt,no:v('bno'),date:v('bd')||today(),cust:n,addr:v('ba'),city:v('bc'),st:v('bs'),sc:v('bsc')||SC[v('bs')]||'',pin:v('bpn'),phone:v('bph'),gstin:bt=='P'?v('bg').toUpperCase():'',ship:v('bship'),shipaddr:v('bshipaddr'),shipcity:v('bshipcity'),shipst:v('bshipstate'),shipscc:v('bshipscc')||SC[v('bshipstate')]||'',shipgst:v('bshipgst'),hsn:v('bhsn'),mode:v('bmode'),vehicle:v('bveh'),terms:v('bterms'),items:it,gr:+(v('bgr')||0),gross:z.gross,overallDisc:z.overallDisc,discount:z.discount,sub:z.sub,tax:z.tax,cg:z.cg,sg:z.sg,ig:z.ig,del:z.del,round:z.round,tr:v('btr'),total:z.total,paid:Math.min(+v('bpd')||0,z.total)};
+if(old){const ix=D.b.findIndex(x=>x.id==old.id);D.b[ix]=b}else D.b.push(b);
+if(v('bid'))D.drafts=(D.drafts||[]).filter(x=>x.id!=v('bid'));logA(old?'Bill edited':'Bill created',b.no+' · '+n+' · '+f(b.total));save();go(2);viewB(b.id);if(window._pr)setTimeout(()=>window.print(),300)}
+function editB(id){const b=D.b.find(x=>x.id==id);if(!b)return alert('Bill not found');if(!confirm('Edit this bill? Changes are saved only when you press Save / Generate.'))return;loadDraft(id,b)}
+function printB(id){viewB(id);setTimeout(()=>window.print(),300)}
+
+function printThermal(id) {
+    viewB(id, true);
+    setTimeout(()=>window.print(),300);
+}
+
+function shareWA(id){const b=D.b.find(x=>x.id==id);if(!b)return;let ph=String(b.phone||'').replace(/\D/g,'');if(ph.length==12&&ph.startsWith('91'))ph=ph.slice(2);if(ph.length==11&&ph.startsWith('0'))ph=ph.slice(1);if(ph.length!=10)return alert('This customer needs a valid 10-digit mobile number to share on WhatsApp.');
+const co=b.t=='P'?(D.p.name||'Sathi Enterprise'):'';const msg=`Hello ${b.cust},\n${co?'Thank you for choosing '+co+'.':'Thank you for your purchase.'}\nYour bill (No: ${b.no}) is ready.\nTotal Amount: ${f(b.total)}\nAmount Paid: ${f(b.paid)}\nBalance Due: ${f(b.total-b.paid)}\n\nHave a great day!`;window.open(`https://wa.me/91${ph}?text=${encodeURIComponent(msg)}`,'_blank')}
+
+function inWords(n){n=Math.round(+n||0);if(!n)return'Zero Rupees Only';const a=['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'],t=['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'],w=x=>x<20?a[x]:t[Math.floor(x/10)]+(x%10?' '+a[x%10]:'');let z=[];const part=(v,l)=>{if(v){z.push((v<100?w(v):w(Math.floor(v/100))+' Hundred'+(v%100?' '+w(v%100):''))+' '+l)}};part(Math.floor(n/10000000),'Crore');part(Math.floor(n/100000)%100,'Lakh');part(Math.floor(n/1000)%100,'Thousand');part(Math.floor(n/100)%10,'Hundred');if(n%100)z.push(w(n%100));return z.join(' ')+' Rupees Only'}
+
+function viewB(id, isThermal=false, cp=0){const b=D.b.find(x=>x.id==id),p=D.p,P=b.t=='P',intra=key(b.st)==key(p.state),sellerSC=p.sc||SC[p.state]||'',buyerSC=b.sc||SC[b.st]||'',taxable=b.sub??sum(b.items,i=>i.q*i.r),tx=!b.tax?'':P?(intra?`<tr><td>CGST @ ${b.gr/2}%</td><td>${f(b.tax/2)}</td></tr><tr><td>SGST @ ${b.gr/2}%</td><td>${f(b.tax/2)}</td></tr>`:`<tr><td>IGST @ ${b.gr}%</td><td>${f(b.tax)}</td></tr>`):`<tr><td>GST ${b.gr}%</td><td>${f(b.tax)}</td></tr>`;
+if(!P){
+    if (isThermal) {
+        show(`<div class="thermal-slip">
+            <h2>BILL</h2>
+            <p>Bill no: ${esc(b.no)}<br>Date: ${b.date}</p>
+            <p>To: <b>${esc(b.cust)}</b></p>
+            <table>
+                <tr><th class="left">Item</th><th>Qty</th><th>Rate</th><th class="right">Amt</th></tr>
+                ${b.items.map(i=>`<tr><td>${esc(i.d)}</td><td class="center">${i.q}</td><td class="center">${i.r}</td><td class="right">${(i.q*i.r).toFixed(2)}</td></tr>`).join('')}
+            </table>
+            <table class="totals">
+                <tr><td colspan="3" class="right">Gross Total:</td><td class="right">${f(b.gross??(b.sub+(b.discount||0)))}</td></tr>
+                ${b.discount?`<tr><td colspan="3" class="right">Discount:</td><td class="right">-${f(b.discount)}</td></tr>`:''}
+                <tr><td colspan="3" class="right">Delivery:</td><td class="right">${f(b.del)}</td></tr>
+                <tr><td colspan="3" class="right"><b>Net Total:</b></td><td class="right"><b>${f(b.total)}</b></td></tr>
+                <tr><td colspan="3" class="right">Paid:</td><td class="right">${f(b.paid)}</td></tr>
+                <tr><td colspan="3" class="right">Due:</td><td class="right">${f(b.total-b.paid)}</td></tr>
+            </table>
+            <div class="center" style="margin-top:10px;"><p>Thank You!</p></div>
+        </div>`, true);
+    } else {
+        show(`<div class="np" style="padding-bottom:10px;"><button class="o" onclick="printThermal('${id}')">Print Thermal (80mm)</button> <button class="o" onclick="shareWA('${id}')">Share on WhatsApp</button></div>
+        <div class="inv"><h2 style="text-align:center">BILL</h2><p>Bill no: <b>${esc(b.no)}</b> · Date: ${b.date}<br>Customer: <b>${esc(b.cust)}</b><br>${esc(b.addr)} ${esc(b.city)} ${esc(b.st)} ${esc(b.pin)}<br>Ph: ${esc(b.phone)}</p>${tbl(['Description','Qty','Rate','Discount','Total'],b.items.map(i=>[esc(i.d),i.q,f(i.r),f(i.disc||0),f(Math.max(0,i.q*i.r-(i.disc||0)))]))}<table style="max-width:300px;margin-left:auto"><tr><td>Gross Total</td><td>${f(b.gross??(b.sub+(b.discount||0)))}</td></tr>${b.discount?`<tr><td>Total Discount</td><td>${f(b.discount)}</td></tr>`:''}<tr><td>Sub Total</td><td>${f(b.sub)}</td></tr>${tx}<tr><td>Delivery</td><td>${f(b.del)}</td></tr><tr><td><b>Net total</b></td><td><b>${f(b.total)}</b></td></tr><tr><td>Paid</td><td>${f(b.paid)}</td></tr><tr><td>Due</td><td>${f(b.total-b.paid)}</td></tr></table><p>Transport / delivery: ${esc(b.tr)}</p></div>`);
+    }
+    return;
+}
+const rows=b.items.map((i,n)=>{const base=Math.max(0,i.q*i.r-Math.min(i.q*i.r,i.disc||0)),cg=intra?b.tax/2*(base/(taxable||1)):0,sg=intra?cg:0,ig=intra?0:b.tax*(base/(taxable||1));return `<tr><td>${n+1}</td><td>${esc(i.d)}${b.hsn?`<div class=muted>HSN: ${esc(b.hsn)}</div>`:''}</td><td>${i.q}</td><td>${esc(i.u||'pcs')}</td><td>${f(i.r)}</td><td>${f(i.q*i.r)}</td><td>${f(Math.min(i.q*i.r,i.disc||0))}</td><td>${intra?b.gr/2:0}%</td><td>${f(cg)}</td><td>${intra?b.gr/2:0}%</td><td>${f(sg)}</td><td>${!intra?b.gr:0}%</td><td>${f(ig)}</td></tr>`}).join('');
+const totals=`<tr><td colspan="7"><b>Totals</b></td><td colspan="2">${intra?'CGST '+b.gr/2+'%':'IGST '+b.gr+'%'}</td><td colspan="2">${intra?'SGST '+b.gr/2+'%':'—'}</td><td colspan="2">${intra?'—':'IGST'}</td></tr>`;
+const mk=lbl=>`<style>
+.inv.pakka{max-width:1100px;padding:0;font:11px/1.25 Arial,sans-serif;border:1px solid #555;color:#111}.pakka *{box-sizing:border-box}.pakka .head{background:#f5e3ef;border-bottom:2px solid #a64d80;padding:12px;text-align:center}.pakka .brand{font-size:27px;font-weight:800;color:#76385d;letter-spacing:.5px}.pakka .tag{font-size:13px;font-weight:bold;color:#176b50}.pakka .meta,.pakka .party,.pakka .items,.pakka .summary{width:100%;border-collapse:collapse}.pakka td,.pakka th{border:1px solid #777;padding:5px;vertical-align:top}.pakka .meta td{width:25%}.pakka .party td{width:50%;height:100px}.pakka .items{table-layout:fixed}.pakka .items th{background:#f3edf1;text-align:center}.pakka .items td{text-align:right}.pakka .items td:nth-child(2){text-align:left}.pakka .summary{margin-top:0}.pakka .bottom{display:grid;grid-template-columns:60% 40%;min-height:145px}.pakka .words{padding:10px;border-right:1px solid #777}.pakka .sign{text-align:right;padding:10px}.pakka .muted{font-size:9px;color:#555}.pakka .foot{padding:8px;border-top:1px solid #777}.pakka .totalsbox{margin-left:auto;width:100%}.pakka .items{font-size:10px}.pakka .items th,.pakka .items td{overflow-wrap:anywhere}
+@media print{.inv.pakka{page-break-after:always}.inv.pakka:last-child{page-break-after:auto}.inv.pakka{max-width:none;width:100%;border:1px solid #555;font-size:9px}.pakka .brand{font-size:23px}.pakka td,.pakka th{padding:4px} @page{size:A4 portrait;margin:8mm} }
+
+/* Entry Mode Toggle & Scanner Box */
+.entry-mode-box { border: 1px solid var(--b); background: var(--bg); border-radius: 10px; padding: 12px; margin: 10px 0; }
+.entry-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.entry-tabs button { flex: 1; min-width: 180px; padding: 10px 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.scan-panel { border: 2px dashed var(--a); border-radius: 10px; padding: 16px; text-align: center; background: var(--c); margin-top: 8px; }
+.scan-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+.scan-summary { margin-top: 10px; padding: 10px; border-radius: 8px; background: var(--bg); border: 1px solid var(--b); text-align: left; font-size: 13px; }
+
+</style><div class="inv pakka">
+<div class="head"><div class="brand">${esc(p.name||'Sathi Enterprise')}</div><div class="tag">SPECIALIST IN VEIL · ORDER SUPPLIERS</div><div>${esc(p.addr||'')} ${esc(p.city||'')} ${esc(p.state||'')} ${esc(p.pin||'')}</div><div>Mob.: ${esc(p.phone||'')} · E-mail: ${esc(p.email||'')}</div></div>
+<table class="meta"><tr><td><b>TAX INVOICE</b></td><td>Invoice No.: <b>${esc(b.no)}</b></td><td>Invoice Date: <b>${esc(b.date)}</b></td><td>${lbl}</td></tr><tr><td colspan="2">GSTIN: <b>${esc(p.gstin||'')}</b></td><td>State: ${esc(p.state||'')} · State Code: <b>${esc(sellerSC)}</b></td><td>HSN Code: ${esc(b.hsn||'')}</td></tr><tr><td colspan="2">Bank: ${esc(p.bank||'')} (${esc(p.branch||'')})</td><td> A/c No.: ${esc(p.acno||'')}</td><td>IFSC: ${esc(p.ifsc||'')}</td></tr></table>
+<table class="party"><tr><td><b>BILLED TO</b><br><b>${esc(b.cust)}</b><br>${esc(b.addr)}<br>${esc(b.city)} ${esc(b.pin)}<br>State: ${esc(b.st)} · Code: <b>${esc(buyerSC)}</b><br>GSTIN: ${esc(b.gstin||'—')}<br>Phone: ${esc(b.phone||'')}</td><td><b>SHIPPED TO</b><br>${esc(b.ship||b.cust)}<br>${esc(b.shipaddr|| (b.ship?b.ship:b.addr))}<br>${esc(b.shipcity||b.city||'')}<br>State: ${esc(b.shipst||b.st)} · Code: <b>${esc(b.shipscc||buyerSC)}</b><br>GSTIN: ${esc(b.shipgst||b.gstin||'—')}</td></tr></table>
+<table class="items"><colgroup><col style="width:3%"><col style="width:19%"><col style="width:5%"><col style="width:5%"><col style="width:8%"><col style="width:9%"><col style="width:7%"><col style="width:6%"><col style="width:8%"><col style="width:6%"><col style="width:8%"><col style="width:6%"><col style="width:10%"></colgroup><tr><th rowspan="2">Sl.</th><th rowspan="2">Name of Product</th><th rowspan="2">Qty.</th><th rowspan="2">Unit</th><th rowspan="2">Rate</th><th rowspan="2">Total</th><th rowspan="2">Discount</th><th colspan="2">CGST</th><th colspan="2">SGST</th><th colspan="2">IGST</th></tr><tr><th>Rate%</th><th>Amount</th><th>Rate%</th><th>Amount</th><th>Rate%</th><th>Amount</th></tr>${rows||'<tr><td colspan="13">No items</td></tr>'}</table>
+<div class="bottom"><div class="words"><b>Total invoice amount in words:</b><p>${inWords(b.total)}</p><p><b>Transportation Mode:</b> ${esc(b.mode||b.tr||'')}<br><b>Vehicle No.:</b> ${esc(b.vehicle||'')}</p><b>Terms & Conditions</b><p>${esc(b.terms||'')}</p></div><div><table class="summary"><tr><td>Gross value</td><td>${f(b.gross??taxable)}</td></tr><tr><td>Discount</td><td>${f(b.discount||0)}</td></tr><tr><td>Taxable Value</td><td>${f(taxable)}</td></tr>${intra?`<tr><td>CGST @ ${b.gr/2}%</td><td>${f(b.tax/2)}</td></tr><tr><td>SGST @ ${b.gr/2}%</td><td>${f(b.tax/2)}</td></tr>`:`<tr><td>IGST @ ${b.gr}%</td><td>${f(b.tax)}</td></tr>`}<tr><td>Freight</td><td>${f(b.del)}</td></tr><tr><td>GROSS TOTAL</td><td>${f(taxable+b.tax+b.del)}</td></tr><tr><td>Round Off</td><td>${f(b.round||0)}</td></tr><tr><td><b>INVOICE TOTAL</b></td><td><b>${f(b.total)}</b></td></tr><tr><td>Amount Paid</td><td>${f(b.paid)}</td></tr><tr><td>Balance Due</td><td>${f(b.total-b.paid)}</td></tr></table><div class="sign"><br><br><b>For ${esc(p.name||'Sathi Enterprise')}</b><br><br><br>Authorised Signatory</div></div></div><div class="foot">E. &amp; O. E. · This is a computer-generated tax invoice.</div></div>`;const CL=['Original for Recipient','Duplicate for Transporter','Triplicate for Supplier'];show(`<div class="np" style="padding-bottom:10px;"><button class="o" onclick="shareWA('${id}')">Share on WhatsApp</button> <label>Copies</label> <select style="width:auto" onchange="viewB('${id}',false,+this.value)">${[...CL,'All 3 copies'].map((x,i)=>`<option value="${i}"${i==cp?' selected':''}>${x}</option>`).join('')}</select></div>`+(cp==3?CL.map(mk).join(''):mk(CL[cp])))}
+function addR(){const n=v('rc'),a=+v('ra');if(!n||!a)return alert('Customer and amount required');const q=+v('rq')||0,p=D.pr.find(x=>key(x.name)==key(v('ri')));if(p)p.qty+=q;D.r.push({id:uid(),date:v('rd')||today(),cust:n,t:v('rtp'),item:v('ri'),qty:q,amt:a});logA('Goods return',n+' · '+v('ri')+' · '+f(a));save();alert('Return saved');go(2)}
+/* STOCK */
+const CAT10=['Gopal dress','Veil','Rumal','Jhanda','Asan','Jor','Pagri','Gopal chul','Mosari','Bichana'],UN=['pcs','dozen','bundle','set','meter','kg'];
+if(!D.cats)D.cats=CAT10.map((n,i)=>({id:'c'+i,name:n,subs:[]}));
+let sv='home',sq='',sf=null,sT='P';
+const pcat=p=>D.cats.find(c=>c.id==p.cat),low=p=>p.min!=null&&p.qty<=p.min,sub1=(p)=>p.sub||'General';
+const sst=a=>`<div class="g">${[['Products',a.length],['Total quantity',sum(a,x=>x.qty)],['Stock value',f(sum(a,x=>x.qty*x.cost))],['Low / out of stock',a.filter(low).length]].map(([l,x])=>`<div class="card st">${l}<b>${x}</b></div>`).join('')}</div>`;
+const srow=(p,path)=>`<tr><td>${esc(p.desc||p.name)}${path?`<div class="m">${path}</div>`:''}</td><td>${esc(p.size)||'–'}</td><td>${esc(p.quality)||'–'}</td><td>${f(p.cost)}/${p.unit||'pcs'}</td><td style="white-space:nowrap"><button class="o np" onclick="sadj('${p.id}',-1)">−</button> <b>${p.qty}</b> <button class="o np" onclick="sadj('${p.id}',1)">+</button>${low(p)?` <b style="color:var(--r)">${p.qty==0?'Out':'Low'}</b>`:''}</td><td>${f(p.qty*p.cost)}</td><td class="np" style="white-space:nowrap"><button class="o" onclick="sbuy('${p.id}')">Buy</button> <button class="o" onclick="sform('${p.id}')">Edit</button> <button class="x" onclick="sdel('${p.id}')">×</button></td></tr>`;
+const stb=r=>`<div class="sc"><table><tr>${['Description','Size','Quality','Rate','Quantity','Value',''].map(x=>`<th>${x}</th>`).join('')}</tr>${r.join('')||'<tr><td colspan="7" class="m">No products yet</td></tr>'}</table></div>`;
+const where=p=>esc(((pcat(p)||{}).name||'Uncategorised')+(p.sub?' › '+p.sub:''));
+function sBody(){
+if(sq){const k=sq.toLowerCase(),r=D.pr.filter(p=>[p.name,p.desc,p.size,p.quality,p.sub,(pcat(p)||{}).name].join(' ').toLowerCase().includes(k));return `<h3>Search results (${r.length})</h3>`+stb(r.map(p=>srow(p,where(p))))}
+if(sv=='home'){const un=D.pr.filter(p=>!pcat(p)),lw=D.pr.filter(low),rw=(n,id,a)=>[`<button class="o" onclick="sgo('${id}')">${esc(n)}</button>`,a.length,sum(a,x=>x.qty),f(sum(a,x=>x.qty*x.cost))];
+return sst(D.pr)+`<div class="card"><h3>Categories</h3>${tbl(['Category','Products','Quantity','Value'],[...D.cats.map(c=>rw(c.name,c.id,D.pr.filter(p=>p.cat==c.id))),...(un.length?[rw('Uncategorised','u',un)]:[])])}</div><div class="card"><h3>Needs restocking</h3>${lw.length?tbl(['Product','Where','Left'],lw.map(p=>[esc(p.name),where(p),`<b>${p.qty}</b> ${p.unit||'pcs'}`])):'<span class="m">Nothing is running low. Items appear here when stock reaches their alert level.</span>'}</div>`}
+const c=sv=='u'?{id:'u',name:'Uncategorised',subs:[]}:D.cats.find(x=>x.id==sv),ps=sv=='u'?D.pr.filter(p=>!pcat(p)):D.pr.filter(p=>p.cat==c.id),gen=ps.filter(p=>!p.sub||!c.subs.includes(p.sub));
+const blk=(t,a,btns)=>`<div class="card"><h3>${t} <span class="m">${a.length} products</span></h3>${btns}${stb(a.map(p=>srow(p)))}</div>`;
+return `<h2>${esc(c.name)}</h2>${sst(ps)}${c.id=='u'?'':`<p class="np"><button class="o" onclick="saddsub('${c.id}')">+ Add sub-category</button></p>`}`+
+c.subs.map((s,i)=>blk(esc(s),ps.filter(p=>p.sub==s),`<p class="np"><button onclick="sform('','${c.id}',${i})">+ Add product</button> <button class="o" onclick="sren('${c.id}',${i})">Rename</button> <button class="x" onclick="sdsub('${c.id}',${i})">Delete</button></p>`)).join('')+
+(gen.length||!c.subs.length?blk(c.subs.length?'General':'Products',gen,c.id=='u'?'':`<p class="np"><button onclick="sform('','${c.id}',-1)">+ Add product</button></p>`):'')}
+function sgo(id){sv=id;sq='';sf=null;go(4);scrollTo(0,0)}
+function pStock(){return `<div class="card np"><input id="sqi" type="search" placeholder="Search any product (name, size, quality, category)…" value="${esc(sq)}" oninput="sq=this.value.trim();$('sb').innerHTML=sBody()"><p><button class="${sv=='home'?'':'o'}" onclick="sgo('home')">Overview</button> ${D.cats.map(c=>`<button class="${sv==c.id?'':'o'}" onclick="sgo('${c.id}')">${esc(c.name)}</button>`).join(' ')}${D.pr.some(p=>!pcat(p))?` <button class="${sv=='u'?'':'o'}" onclick="sgo('u')">Uncategorised</button>`:''}</p>
+<p>Purchases are recorded in: <select style="width:auto" onchange="sT=this.value"><option value="P"${sT=='P'?' selected':''}>Pakka books</option><option value="K"${sT=='K'?' selected':''}>Kacha books</option></select> <button onclick="sform()">+ Add product</button> <button class="o" onclick="scopy()">Copy for Excel</button> ${pb()}</p><p class="st">Stock reduces automatically when a bill is generated with the same product name (description – size – quality).</p></div>${sf?sFormHtml():''}<div id="sb">${sBody()}</div>`}
+const subOpts=cid=>((D.cats.find(c=>c.id==cid)||{subs:[]}).subs).map(s=>`<option value="${esc(s)}">`).join('');
+function sform(id,cid,si){const c=D.cats.find(x=>x.id==cid);sf=id?{id}:{cat:cid||(D.cats.some(x=>x.id==sv)?sv:D.cats[0].id),sub:c&&si>=0?c.subs[si]:''};go(4);scrollTo(0,0)}
+function sFormHtml(){const p=sf.id?D.pr.find(x=>x.id==sf.id):{},cid=sf.id?p.cat:sf.cat,sb=sf.id?p.sub:sf.sub;
+return `<div class="card"><h3>${sf.id?'Edit':'New'} product</h3><div class="g"><div><label>Category</label><select id="fc" onchange="$('sbl').innerHTML=subOpts(this.value)">${D.cats.map(c=>`<option value="${c.id}"${c.id==cid?' selected':''}>${esc(c.name)}</option>`).join('')}</select></div>${F('fs','Sub-category (type new or pick)',sb||'','text','list=sbl')}<datalist id="sbl">${subOpts(cid)}</datalist>${F('fd','Product description',p.desc||p.name||'')}${F('fz','Size',p.size)}${F('fl','Quality',p.quality)}${F('fr','Rate (₹)',p.cost??'','number')}${F('fq',sf.id?'Quantity in stock':'Opening quantity (recorded as purchase)',p.qty??'','number')}<div><label>Unit</label><select id="fu">${opts(UN,p.unit||'pcs')}</select></div>${F('fm','Alert when stock is at or below',p.min??10,'number')}</div><p><button onclick="ssave()">Save product</button> <button class="o" onclick="sf=null;go(4)">Cancel</button></p></div>`}
+function ssave(){const d=v('fd');if(!d)return alert('Product description required');const o={cat:v('fc'),sub:v('fs'),desc:d,size:v('fz'),quality:v('fl'),cost:+v('fr')||0,qty:+v('fq')||0,unit:v('fu'),min:+v('fm')||0};o.name=[o.desc,o.size,o.quality].filter(Boolean).join(' – ');
+const c=D.cats.find(x=>x.id==o.cat);if(o.sub&&!c.subs.includes(o.sub))c.subs.push(o.sub);
+if(D.pr.some(x=>x.id!=sf.id&&key(x.name)==key(o.name)))return alert('A product with this description, size and quality already exists');
+if(sf.id)Object.assign(D.pr.find(x=>x.id==sf.id),o);else{D.pr.push({id:uid(),...o});if(o.qty>0)D.pu.push({id:uid(),date:today(),item:o.name,qty:o.qty,cost:o.cost,t:sT})}
+logA(sf.id?'Product edited':'Product added',o.name);sf=null;sv=o.cat;save();go(4)}
+const sref=()=>{save();$('sb').innerHTML=sBody()};
+function sadj(id,n){const p=D.pr.find(x=>x.id==id);p.qty=Math.max(0,+(p.qty+n).toFixed(2));sref()}
+function sbuy(id){const p=D.pr.find(x=>x.id==id),q=+prompt('Quantity purchased (added to stock) – '+p.name);if(!q)return;const c=prompt('Purchase rate (₹)',p.cost);p.qty+=q;p.cost=+c||p.cost;D.pu.push({id:uid(),date:today(),item:p.name,qty:q,cost:p.cost,t:sT});logA('Stock purchase',p.name+' × '+q);sref()}
+function sdel(id){const p=D.pr.find(x=>x.id==id);if(confirm('Delete "'+p.name+'"?')){logA('Product deleted',p.name);D.pr=D.pr.filter(x=>x.id!=id);sref()}}
+function saddsub(cid){const n=(prompt('New sub-category name (for example size, colour or quality)')||'').trim(),c=D.cats.find(x=>x.id==cid);if(n&&!c.subs.includes(n)){c.subs.push(n);save();go(4)}}
+function sren(cid,i){const c=D.cats.find(x=>x.id==cid),o=c.subs[i],n=(prompt('Rename sub-category',o)||'').trim();if(!n||c.subs.includes(n))return;c.subs[i]=n;D.pr.forEach(p=>{if(p.cat==cid&&p.sub==o)p.sub=n});save();go(4)}
+function sdsub(cid,i){const c=D.cats.find(x=>x.id==cid),o=c.subs[i];if(!confirm('Delete sub-category "'+o+'"? Its products stay under General.'))return;c.subs.splice(i,1);D.pr.forEach(p=>{if(p.cat==cid&&p.sub==o)p.sub=''});save();go(4)}
+function scopy(){const t=['Category\tSub-category\tDescription\tSize\tQuality\tRate\tQuantity\tUnit\tValue',...D.pr.map(p=>[(pcat(p)||{}).name||'',p.sub||'',(p.desc||p.name).replace(/\s+/g,' '),p.size||'',p.quality||'',p.cost,p.qty,p.unit||'pcs',p.cost*p.qty].join('\t'))].join('\n');show(`<h3>Copy for Excel or Sheets</h3><p class="m">Select all, copy, then paste into a spreadsheet.</p><textarea id="cpx" style="height:60vh">${esc(t)}</textarea>`);$('cpx').select()}
+/* EXPENSES */
+const CATS=['Rent','Salary / wages','Electricity','Transport / freight','Raw material','Repairs','Packing','Phone / internet','Tax / GST paid','Tea / food','Other'];
+function pExp(){const t=T('all'),tm=T('month'),ty=T('year'),td=sum(D.e.filter(x=>x.date==today()),x=>x.amt),first=D.e.map(x=>x.date).sort()[0],days=first?Math.max(1,Math.round((new Date()-new Date(first))/864e5)+1):1,cat={};D.e.forEach(x=>cat[x.cat]=(cat[x.cat]||0)+x.amt);const cs=Object.entries(cat).sort((a,b)=>b[1]-a[1]),mx=cs[0]?cs[0][1]:1,S=(l,x)=>`<div class="card st">${l}<b>${x}</b></div>`;
+return `<div class="card"><h3>Add expense</h3><input type=hidden id=eid><div class="g">${F('ed','Date',today(),'date')}${F('ec','Category','','text','list=ecl')}${F('edsc','Description')}${F('ea','Amount','','number')}<div><label>Account</label><select id="et"><option value="P">Pakka</option><option value="K">Kacha</option></select></div><div><label>Status</label><select id="es"><option>Paid</option><option>Due</option></select></div><div><label>&nbsp;</label><button onclick="addE()">Save expense</button></div></div>${dl('ecl',[...CATS,...D.e.map(x=>x.cat)])}</div>
+<div class="g">${S('Today',f(td))}${S('Daily average',f(t.et/days))}${S('This month',f(tm.et))}${S('This financial year',f(ty.et))}${S('All time',f(t.et))}</div>
+<div class="card"><h3>Major expenses</h3>${cs.map(([k,a])=>`<div>${esc(k)} – ${f(a)}<div class="bar" style="width:${a/mx*100}%"></div></div>`).join('')||'<span class=m>None yet</span>'}</div>
+<div class="card"><h3>Dues payable</h3>${tbl(['Date','Category','Description','Amount',''],D.e.filter(x=>!x.paid).map(x=>[x.date,esc(x.cat),esc(x.desc),f(x.amt),`<button class="o np" onclick="payE('${x.id}')">Mark paid</button>`]))}</div>
+<h3>History ${pb()}</h3>${tbl(['Date','Category','Description','Amount','Status',''],[...D.e].sort((a,b)=>a.date<b.date?1:-1).map(x=>[x.date,esc(x.cat),esc(x.desc),f(x.amt),x.paid?'Paid':'Due',`<button class="o np" onclick="editE('${x.id}')">Edit</button> <button class="x np" onclick="delE('${x.id}')">×</button>`]))}`}
+function addE(){const a=+v('ea');if(!a||!v('ec'))return alert('Category and amount required');const o={id:v('eid')||uid(),date:v('ed')||today(),cat:v('ec'),desc:v('edsc'),amt:a,paid:v('es')=='Paid',t:v('et')},i=D.e.findIndex(x=>x.id==o.id);if(i>=0)D.e[i]=o;else D.e.push(o);logA(i>=0?'Expense edited':'Expense added',o.cat+' · '+f(a));save();go(5)}
+function editE(id){const x=D.e.find(e=>e.id==id);$('eid').value=id;$('ed').value=x.date;$('ec').value=x.cat;$('edsc').value=x.desc;$('ea').value=x.amt;$('es').value=x.paid?'Paid':'Due';$('et').value=x.t||'P';scrollTo(0,0)}
+function payE(id){D.e.find(x=>x.id==id).paid=true;save();go(5)}function delE(id){if(confirm('Delete expense?')){logA('Expense deleted',id);D.e=D.e.filter(x=>x.id!=id);save();go(5)}}
+/* REPORTS */
+let rp='month',rt='';
+function pRep(){const t=T(rp,rt),tb=TB(t.ir),acc=Object.entries(tb),td=sum(acc,x=>x[1][0]),tc=sum(acc,x=>x[1][1]);
+return `<div class="card np"><label>Books</label><select onchange="rt=this.value;go(6)"><option value=""${rt?'':' selected'}>Pakka + Kacha combined</option><option value="P"${rt=='P'?' selected':''}>Pakka only</option><option value="K"${rt=='K'?' selected':''}>Kacha only</option></select> <label>Report period</label><select onchange="rp=this.value;go(6)">${Object.keys(PN).map(k=>`<option value=${k}${k==rp?' selected':''}>${PN[k]}</option>`).join('')}</select>
+${rp=='custom'?`<div style="margin-top:6px"><input type="date" style="width:auto;display:inline-block" value="${cStartDate}" onchange="cStartDate=this.value;go(6)"> to <input type="date" style="width:auto;display:inline-block" value="${cEndDate}" onchange="cEndDate=this.value;go(6)"></div>`:''}
+${pb()} <button class="o" onclick="exportCsv('reports')">Export to Excel (CSV)</button></div>
+<h2>${esc(D.p.name||'Sathi Enterprise')} – Financial report${rt=='P'?' (Pakka)':rt=='K'?' (Kacha)':''}</h2><p class=m>${PN[rp]} (${t.a==='0000'?'start':t.a} to ${t.b==='9999'?'today':t.b})</p>
+${tbl(['Item','Amount'],[['Sales',f(t.sales)],['GST collected',f(sum(t.bl,x=>x.tax))],['Goods returned',f(t.rt)],['Purchases (added to stock)',f(t.pt)],['Cost of goods sold',f(t.cogs-t.rcogs)],['Gross profit',f(t.gp)],['Stock value now',f(sum(D.pr,x=>x.qty*x.cost))],['Expenses',f(t.et)],['<b>Net profit / (loss)</b>',`<b>${f(t.net)}</b>`],['Payments received',f(t.paid)],['Total customer dues',f(t.due)]])}
+<h3>Customer bill dues</h3>${tbl(['Customer','Phone','City','Due'],t.dues.map(([n,a])=>{const c=D.c.find(x=>key(x.name)==key(n))||{};return[esc(n),esc(c.phone),esc(c.city),f(a)]}))}
+${dueHtml()}
+<h3>Expenditure list – total ${f(t.et)}</h3>${tbl(['Date','Category','Description','Amount'],t.ex.map(x=>[x.date,esc(x.cat),esc(x.desc),f(x.amt)]))}
+<h3>Sales list – total ${f(t.sales)}</h3>${tbl(['Date','Bill','Customer','Type','Amount'],t.bl.map(x=>[x.date,esc(x.no),esc(x.cust),x.t=='P'?'Pakka':'Kacha',f(x.sub+x.del)]))}
+<h3>Goods returns – total ${f(t.rt)}</h3>${tbl(['Date','Customer','Phone','Goods','Qty','Amount'],t.ret.map(x=>[x.date,esc(x.cust),esc((D.c.find(c=>key(c.name)==key(x.cust))||{}).phone),esc(x.item),x.qty,f(x.amt)]))}
+${gstHtml(t)}
+<h3>Double-entry trial balance</h3>${tbl(['Account','Debit','Credit'],[...acc.map(([k,[d,c]])=>[esc(k),f(d),f(c)]),['<b>Total</b>',`<b>${f(td)}</b>`,`<b>${f(tc)}</b>`]])}<p class=st>Every bill, payment, return, expense and purchase posts equal debit and credit entries automatically.</p>
+<h3>Activity log (last 100 changes)</h3>${tbl(['When','User','Action','Details'],[...(D.log||[])].reverse().slice(0,100).map(x=>[new Date(x.t).toLocaleString('en-IN'),esc(x.u),esc(x.a),esc(x.d)]))}`}
+
+/* ADDED: log, backup reminder, suppliers, dues by billing date, GST summary */
+const r2=x=>Math.round((+x||0)*100)/100;
+function logA(a,d){D.log=D.log||[];D.log.push({t:new Date().toISOString(),u:(D.auth&&D.auth.u)||'owner',a,d:d||''});if(D.log.length>1000)D.log=D.log.slice(-1000)}
+const bkBanner=()=>(D.lastBackup!==today()&&(D.b.length||D.c.length))?`<div class="card np" style="border-left:4px solid var(--r)"><b>Backup reminder:</b> you have not saved a backup today. <button onclick="exportBackup();go(pg)">Download backup now</button></div>`:'';
+const pTot=x=>x.qty*x.cost+(x.gst||0),supBal=id=>sum(D.pu.filter(x=>x.sup==id),x=>pTot(x)-(x.paid??pTot(x)))-sum(D.sy.filter(x=>x.sup==id),x=>x.amt);
+let supSel=null;
+function listS(){const q=key(($('suq')||{}).value);return tbl(['Supplier','Phone','GSTIN','We owe',''],D.sp.filter(s=>key([s.name,s.phone,s.gstin,s.addr].join(' ')).includes(q)).map(s=>[esc(s.name),esc(s.phone),esc(s.gstin),f(supBal(s.id)),`<button class="o" onclick="supOpen('${s.id}')">Open</button>`]))}
+function pSup(){return `<div class="card"><h3>Add supplier</h3><input type="hidden" id="suid"><div class="g">${F('sun','Supplier name')}${F('suph','Phone','','tel')}${F('sugs','GSTIN','','text','maxlength=15 style="text-transform:uppercase"')}${F('suad','Address / city')}</div><p><button onclick="saveS()">Save supplier</button></p></div>
+<div class="card np"><h3>Total payable to suppliers: ${f(sum(D.sp,s=>supBal(s.id)))}</h3><input class="quick-search" id="suq" placeholder="Search supplier…" oninput="$('sul').innerHTML=listS()"></div><div id="sul">${listS()}</div><div id="sud">${supSel?supBody(supSel):''}</div>`}
+function supBody(id){const s=D.sp.find(x=>x.id==id);if(!s)return'';let r=0;const tx=[...D.pu.filter(x=>x.sup==id).map(x=>({d:x.date,t:'Purchase '+(x.inv?x.inv+' – ':'')+x.item+' × '+x.qty,a:pTot(x),p:x.paid??pTot(x),k:'u',i:x.id})),...D.sy.filter(x=>x.sup==id).map(x=>({d:x.date,t:'Payment to supplier',a:0,p:x.amt,k:'y',i:x.id}))].sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
+const rows=tx.map(x=>[x.d,esc(x.t),x.a?f(x.a):'',x.p?f(x.p):'',f(r+=x.a-x.p),`<button class="x np" onclick="delSup('${x.k}','${x.i}','${id}')">×</button>`]);
+return `<div class="card"><h3>${esc(s.name)}</h3><p>${esc(s.addr||'')} · ${esc(s.phone||'')}${s.gstin?' · GSTIN '+esc(s.gstin):''}<br><b>We owe this supplier: ${f(r)}</b></p><p class="np"><button class="o" onclick="editS('${id}')">Edit</button> <button class="x" onclick="delS('${id}')">Delete</button></p>
+<h4>Record purchase</h4><div class="g np">${F('pud','Date',today(),'date')}${F('pui','Supplier invoice no.')}${F('pun','Item','','text','list=pdl')}${F('puq','Quantity','','number')}${F('pur','Rate (₹)','','number')}<div><label>GST %</label><select id="pug">${[0,5,12,18,28].map(x=>`<option>${x}</option>`).join('')}</select></div>${F('pup','Paid now (₹)','0','number')}<div><label>Account</label><select id="put"><option value="P">Pakka</option><option value="K">Kacha</option></select></div><div><label>Add to stock</label><select id="pus"><option value="1">Yes</option><option value="0">No</option></select></div><div><label>&nbsp;</label><button onclick="addPur('${id}')">Save purchase</button></div></div>
+<h4>Payment to supplier</h4><div class="g np">${F('syd','Date',today(),'date')}${F('sya','Amount (₹)','','number')}<div><label>Account</label><select id="syt"><option value="P">Pakka</option><option value="K">Kacha</option></select></div><div><label>&nbsp;</label><button onclick="addSPay('${id}')">Record payment</button></div></div>
+<h4>Ledger</h4>${tbl(['Date','Details','Purchase','Paid','We owe',''],rows)}</div>`}
+function supOpen(id){supSel=id;go(7);$('sud').scrollIntoView()}
+function saveS(){const n=v('sun');if(!n)return alert('Supplier name required');const gs=v('sugs').toUpperCase();if(gs&&!/^[0-9A-Z]{15}$/.test(gs))return alert('GSTIN must be 15 letters/digits');const id=v('suid')||uid();if(D.sp.some(x=>x.id!=id&&key(x.name)==key(n)))return alert('A supplier with this name exists');const o={id,name:n,phone:v('suph'),gstin:gs,addr:v('suad')},i=D.sp.findIndex(x=>x.id==id);if(i>=0)D.sp[i]=o;else D.sp.push(o);logA(i>=0?'Supplier edited':'Supplier added',n);save();supSel=id;go(7)}
+function editS(id){const s=D.sp.find(x=>x.id==id);[['suid','id'],['sun','name'],['suph','phone'],['sugs','gstin'],['suad','addr']].forEach(([a,b])=>$(a).value=s[b]||'');scrollTo(0,0)}
+function delS(id){const s=D.sp.find(x=>x.id==id);if(D.pu.some(x=>x.sup==id)||D.sy.some(x=>x.sup==id))return alert('This supplier has ledger entries and cannot be deleted.');if(!confirm('Delete supplier "'+s.name+'"?'))return;logA('Supplier deleted',s.name);D.sp=D.sp.filter(x=>x.id!=id);supSel=null;save();go(7)}
+function addPur(id){const n=v('pun'),q=+v('puq'),r=+v('pur');if(!n||!(q>0)||v('pur')===''||!(r>=0))return alert('Item, quantity and rate are required');const gst=r2(q*r*(+v('pug')||0)/100),tot=q*r+gst,paid=Math.min(Math.max(+v('pup')||0,0),tot),p=D.pr.find(x=>key(x.name)==key(n));let st=0;
+if(v('pus')=='1'){if(p){p.qty+=q;p.cost=r;st=1}else alert('"'+n+'" is not in your Stock list, so stock was not changed. Add the product in Stock first if you want it counted.')}
+D.pu.push({id:uid(),date:v('pud')||today(),item:n,qty:q,cost:r,t:v('put'),sup:id,gst,paid,inv:v('pui'),st});logA('Supplier purchase',(D.sp.find(x=>x.id==id)||{}).name+' · '+n+' × '+q);save();supSel=id;go(7)}
+function addSPay(id){const a=+v('sya');if(!(a>0))return alert('Enter the amount');D.sy.push({id:uid(),date:v('syd')||today(),sup:id,amt:a,t:v('syt')});logA('Payment to supplier',(D.sp.find(x=>x.id==id)||{}).name+' · '+f(a));save();supSel=id;go(7)}
+function delSup(k,i,sid){if(!confirm('Delete this entry?'))return;if(k=='u'){const x=D.pu.find(y=>y.id==i);if(x&&x.st){const p=D.pr.find(y=>key(y.name)==key(x.item));if(p)p.qty=Math.max(0,p.qty-x.qty)}D.pu=D.pu.filter(y=>y.id!=i)}else D.sy=D.sy.filter(y=>y.id!=i);logA('Supplier entry deleted',i);save();supSel=sid;go(7)}
+function dueBills(ty){const out=[],sd=(a,b)=>a<b?-1:a>b?1:0;[...new Set(D.b.filter(b=>!ty||b.t==ty).map(b=>b.cust))].forEach(n=>{const k=key(n),mt=x=>key(x.cust)==k&&(!ty||(x.t||'P')==ty);let cr=sum(D.py.filter(mt),x=>x.amt)+sum(D.r.filter(mt),x=>x.amt);D.b.filter(b=>key(b.cust)==k&&(!ty||b.t==ty)).sort((a,b)=>sd(a.date,b.date)).forEach(b=>{let o=b.total-b.paid;const u=Math.min(o,cr);o-=u;cr-=u;if(o>0.005)out.push({b,o})})});return out.sort((a,c)=>sd(a.b.date,c.b.date))}
+function dueHtml(){const rows=dueBills(rt);return `<h3>Bill-wise dues – oldest billing date first</h3>${tbl(['Billing date','Bill','Customer','Phone','Bill total','Still due','Days since billing',''],rows.map(({b,o})=>[b.date,esc(b.no),esc(b.cust),esc(b.phone),f(b.total),f(o),Math.max(0,Math.floor((Date.now()-new Date(b.date))/864e5)),`<button class="o np" onclick="remindWA('${b.id}')">WhatsApp reminder</button>`]))}<p class="st">Payments and returns recorded for a customer are applied to their oldest bills first.</p>`}
+function remindWA(bid){const b=D.b.find(x=>x.id==bid);if(!b)return;const c=D.c.find(x=>key(x.name)==key(b.cust))||{};let ph=String(b.phone||c.phone||'').replace(/\D/g,'');if(ph.length==12&&ph.startsWith('91'))ph=ph.slice(2);if(ph.length==11&&ph.startsWith('0'))ph=ph.slice(1);if(ph.length!=10)return alert('This customer needs a valid 10-digit mobile number.');
+const d=dueBills(b.t).find(x=>x.b.id==bid),co=b.t=='P'?' – '+(D.p.name||'Sathi Enterprise'):'';const msg=`Dear ${b.cust},\nThis is a gentle reminder that ₹${(d?d.o:0).toLocaleString('en-IN')} is pending for bill ${b.no} dated ${b.date}.\nKindly make the payment at your earliest convenience.\nThank you${co}`;window.open(`https://wa.me/91${ph}?text=${encodeURIComponent(msg)}`,'_blank')}
+function gstData(t){const g=t.bl.filter(b=>b.t=='P'),h={};g.forEach(b=>{const k=b.hsn||'(not entered)',o=h[k]=h[k]||{q:0,x:0,c:0,s:0,i:0};o.q+=sum(b.items,i=>i.q);o.x+=b.sub;o.c+=b.cg||0;o.s+=b.sg||0;o.i+=b.ig||0});const tt=k=>sum(g,b=>b[k]||0);return{g,b2b:g.filter(b=>b.gstin),b2c:g.filter(b=>!b.gstin),h,x:tt('sub'),c:tt('cg'),s:tt('sg'),i:tt('ig'),itc:t.itc,cn:t.ret.filter(r=>(r.t||'P')=='P')}}
+function gstHtml(t){const d=gstData(t),n=f;return `<h3>GST summary – Pakka bills (GSTR-1 / GSTR-3B style)</h3><p class="np"><button class="o" onclick="exportGst()">Export GST data (CSV)</button></p>
+<h4>B2B invoices (customer has GSTIN)</h4>${tbl(['Date','Invoice','Customer','GSTIN','Place of supply','Invoice value','Taxable','CGST','SGST','IGST'],d.b2b.map(b=>[b.date,esc(b.no),esc(b.cust),esc(b.gstin),esc(b.st),n(b.total),n(b.sub),n(b.cg),n(b.sg),n(b.ig)]))}
+<h4>B2C (no GSTIN) – total</h4>${tbl(['Invoices','Taxable','CGST','SGST','IGST'],[[d.b2c.length,n(sum(d.b2c,b=>b.sub)),n(sum(d.b2c,b=>b.cg)),n(sum(d.b2c,b=>b.sg)),n(sum(d.b2c,b=>b.ig))]])}
+<h4>HSN-wise summary</h4>${tbl(['HSN','Quantity','Taxable value','CGST','SGST','IGST'],Object.entries(d.h).map(([k,o])=>[esc(k),o.q,n(o.x),n(o.c),n(o.s),n(o.i)]))}
+<h4>Credit notes (Pakka goods returns)</h4>${tbl(['Date','Customer','Goods','Qty','Amount'],d.cn.map(r=>[r.date,esc(r.cust),esc(r.item),r.qty,n(r.amt)]))}
+<h4>GSTR-3B style totals</h4>${tbl(['Item','Amount'],[['Outward taxable value',n(d.x)],['Output CGST',n(d.c)],['Output SGST',n(d.s)],['Output IGST',n(d.i)],['Input tax credit (GST on supplier purchases)',n(d.itc)],['<b>Net GST payable (output − input credit)</b>',`<b>${n(d.c+d.s+d.i-d.itc)}</b>`]])}<p class="st">Prepared from your entries (freight is shown outside taxable value). Please have your CA verify before filing.</p>`}
+function exportGst(){const d=gstData(T(rp,rt)),R=[['B2B invoices'],['Date','Invoice','Customer','GSTIN','Place of supply','Invoice value','Taxable','CGST','SGST','IGST'],...d.b2b.map(b=>[b.date,b.no,b.cust,b.gstin,b.st,b.total,b.sub,b.cg||0,b.sg||0,b.ig||0]),[],['HSN summary'],['HSN','Quantity','Taxable','CGST','SGST','IGST'],...Object.entries(d.h).map(([k,o])=>[k,o.q,o.x,o.c,o.s,o.i]),[],['Totals'],['Taxable',d.x],['CGST',d.c],['SGST',d.s],['IGST',d.i],['Input tax credit',d.itc]];dlFile(`GST_summary_${today()}.csv`,'\ufeff'+R.map(r=>r.map(escCsv).join(',')).join('\n'),'text/csv;charset=utf-8')}
+
+
+/* AI BILL SCANNER & ENTRY MODES */
+function setEntryMode(m){
+    entryMode = m;
+    if($('manualHint')) $('manualHint').style.display = m==='manual'?'block':'none';
+    if($('scanPanel')) $('scanPanel').style.display = m==='scan'?'block':'none';
+    const btns = document.querySelectorAll('.entry-tabs button');
+    if(btns.length>=2){
+        btns[0].className = m==='manual'?'':'o';
+        btns[1].className = m==='scan'?'':'o';
+    }
+}
+
+function aiSettings(){
+    const k=D.apiKey||DEFAULT_API_KEY;
+    document.body.className='ov';
+    $('ov').innerHTML=`<div class="card" style="max-width:500px;margin:20px auto">
+        <h3>AI Photo Scanner Settings</h3>
+        <p>${k?'Active API key on this device: <b>'+esc(k.slice(0,6))+'••••'+esc(k.slice(-4))+'</b>':'<b>No API key saved.</b>'}</p>
+        <p class="st">Your project has your API key pre-loaded (<code>Pre-configured</code>). Note: Standard Google AI Studio browser keys usually start with <code>AIzaSy...</code>. If your key requires a different key or if you generate a new one at <b>aistudio.google.com</b>, you can update it anytime below.</p>
+        <label>Update / Replace API key</label>
+        <input id="aik" type="text" value="${esc(k)}" placeholder="Paste your API key here" autocomplete="off">
+        <p>
+            <button onclick="aiSave()">Save Key</button>
+            <button class="o" onclick="$('aik').value=DEFAULT_API_KEY;aiSave()">Reset to Default Key</button>
+            ${k?' <button class="x" onclick="aiRemove()">Clear Key</button>':''}
+        </p>
+        <label>AI Model Name</label>
+        <input id="aim" value="${esc(D.aiModel||'gemini-2.5-flash')}">
+        <p class="st">Default model is <code>gemini-2.5-flash</code> (also supports <code>gemini-1.5-flash</code>).</p>
+        <p><button class="o" onclick="aiSave(1)">Save Model</button> <button class="o" onclick="document.body.className='';$('ov').innerHTML=''">Close</button></p>
+    </div>`;
+}
+function aiSave(modelOnly){
+    const k=$('aik').value.trim(),m=$('aim').value.trim();
+    if(!modelOnly){
+        if(k.length<10)return alert('Please paste a valid API key.');
+        D.apiKey=k;
+        logA('AI key saved','');
+    }
+    if(m&&m!==D.aiModel){D.aiModel=m;logA('AI model changed',m)}
+    save();aiSettings();
+    alert(modelOnly?'Model saved.':'API key saved on this device.');
+}
+function aiRemove(){
+    if(!confirm('Clear the saved API key?'))return;
+    D.apiKey='';logA('AI key removed','');save();aiSettings();
+}
+
+async function callGeminiVision(b64, mimeType, promptText) {
+    const ak = (D.apiKey || DEFAULT_API_KEY).trim();
+    const models = [D.aiModel || 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+    let lastErr = null;
+    for (const mod of [...new Set(models)]) {
+        try {
+            const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(mod) + ':generateContent?key=' + encodeURIComponent(ak);
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    generationConfig: { response_mime_type: 'application/json' },
+                    contents: [{
+                        parts: [
+                            { text: promptText },
+                            { inline_data: { mime_type: mimeType || 'image/jpeg', data: b64 } }
+                        ]
+                    }]
+                })
+            });
+            const data = await res.json();
+            if (data.error) {
+                lastErr = new Error(data.error.message);
+                if (res.status === 404) continue; // try fallback model
+                throw lastErr;
+            }
+            let t = (((data.candidates||[])[0]||{}).content||{parts:[]}).parts.map(p=>p.text||'').join('');
+            t = t.replace(/```json|```/g,'').trim();
+            return JSON.parse(t);
+        } catch (e) {
+            lastErr = e;
+        }
+    }
+    throw lastErr || new Error('Failed to analyze image.');
+}
+
+async function processBillImage(input){
+    const files = input.files ? Array.from(input.files) : [];
+    if(!files.length) return;
+    const appendMode = $('scanAppend') ? $('scanAppend').checked : true;
+    input.value = '';
+    if(!D.apiKey) D.apiKey = DEFAULT_API_KEY;
+    const st = $('scanStatus'), ab = $('scanAnalysisBox');
+    if(st) st.innerHTML = `<span style="color:#b42318">🔍 Studying &amp; analyzing ${files.length} photo(s) with AI... please wait.</span>`;
+    if(ab) ab.style.display = 'none';
+
+    const promptText = `Carefully study and analyze this image of a bill, handwritten calculation sheet, order slip, or tabular number list.
+Extract every line item or row of numbers.
+- If a row has a product description, quantity, and rate, extract them.
+- If a row is pure numbers (like "24 x 15" or two columns of Quantity and Rate without a product name), set 'd' to "Item #N (Qty × Rate)" and extract 'q' (quantity) and 'r' (rate).
+- Also extract customer name ('cust'), phone ('phone'), or invoice date ('date' in YYYY-MM-DD) if clearly visible.
+Return ONLY a valid JSON object in this exact structure:
+{
+  "cust": "",
+  "phone": "",
+  "notes": "Brief 1-line summary of what was analyzed in the image",
+  "items": [
+    {"d": "Product description or Row label", "q": 1, "r": 0, "u": "pcs"}
+  ]
+}`;
+
+    try {
+        let allItems = [], summaries = [], detectedCust = '', detectedPhone = '';
+        for (let idx = 0; idx < files.length; idx++) {
+            const file = files[idx];
+            if(st) st.innerHTML = `<span style="color:#b42318">🔍 Studying photo ${idx+1} of ${files.length}...</span>`;
+            const b64 = await new Promise((ok,no)=>{
+                const r=new FileReader();
+                r.onload=()=>ok(String(r.result).split(',')[1]);
+                r.onerror=()=>no(new Error('Could not read image'));
+                r.readAsDataURL(file);
+            });
+            const parsed = await callGeminiVision(b64, file.type, promptText);
+            const arr = Array.isArray(parsed) ? parsed : (parsed.items || []);
+            if (parsed && !Array.isArray(parsed)) {
+                if (parsed.cust && !detectedCust) detectedCust = parsed.cust;
+                if (parsed.phone && !detectedPhone) detectedPhone = parsed.phone;
+                if (parsed.notes) summaries.push(parsed.notes);
+            }
+            arr.forEach((it, i) => {
+                const q = +it.q || 1;
+                const r = +it.r || 0;
+                const d = String(it.d || `Row ${allItems.length + 1}`).trim();
+                allItems.push({ d, q, r, u: it.u || 'pcs' });
+            });
+        }
+
+        if(!allItems.length) throw new Error('No line items or number rows could be detected in the photo.');
+
+        if (detectedCust && $('bn') && !v('bn')) { $('bn').value = detectedCust; fillC(); }
+        if (detectedPhone && $('bph') && !v('bph')) { $('bph').value = detectedPhone; }
+
+        if (!appendMode) {
+            $('rows').innerHTML = '';
+        } else {
+            const ex = document.querySelectorAll('.row');
+            if(ex.length===1 && !ex[0].querySelector('.d').value && !+ex[0].querySelector('.r').value) ex[0].remove();
+        }
+
+        let scanSubTotal = 0;
+        const breakdownRows = [];
+        allItems.forEach((it, idx) => {
+            addRow();
+            const rs = document.querySelectorAll('.row'), r = rs[rs.length-1];
+            r.querySelector('.d').value = it.d;
+            r.querySelector('.q').value = it.q;
+            r.querySelector('.r').value = it.r;
+            if(r.querySelector('.u')) r.querySelector('.u').value = it.u || 'pcs';
+            const lineTot = it.q * it.r;
+            scanSubTotal += lineTot;
+            breakdownRows.push(`${idx+1}. <b>${esc(it.d)}</b>: ${it.q} × ₹${it.r} = <b>${f(lineTot)}</b>`);
+        });
+
+        calc();
+        logA('AI bill photo scanned', `${allItems.length} rows · ${f(scanSubTotal)}`);
+
+        if(st) st.innerHTML = `<span style="color:#0f6e56"><b>✓ Photo studied &amp; calculated!</b> ${allItems.length} rows added to the billing chart below.</span>`;
+        if(ab) {
+            ab.style.display = 'block';
+            ab.innerHTML = `<b>📊 AI Study &amp; Calculation Summary (${allItems.length} items):</b>` +
+                (summaries.length ? `<div class="m" style="margin:3px 0">${esc(summaries.join(' | '))}</div>` : '') +
+                `<div style="max-height:140px;overflow-y:auto;margin:6px 0;line-height:1.5">${breakdownRows.join('<br>')}</div>` +
+                `<div style="border-top:1px solid var(--b);padding-top:6px"><b>Scanned Items Sum Total: ${f(scanSubTotal)}</b> (All GST/discounts &amp; grand totals are updated below)</div>`;
+        }
+    } catch(err) {
+        let msg = err.message || 'Unknown error';
+        if (/API key not valid|API_KEY_INVALID|400|403/i.test(msg)) {
+            msg += '\n\nTip: Click "⚙️ AI Key" to verify your Gemini API key.';
+        }
+        alert('Error scanning image: ' + msg);
+        if(st) st.innerHTML = `<span style="color:var(--r)">⚠️ Scan failed: ${esc(err.message)}</span>`;
+    }
+}
+
+/* DAILY ORDERS */
+function setOrdEntryMode(m){
+    ordEntryMode = m;
+    if($('ordScanPanel')) $('ordScanPanel').style.display = m==='scan'?'block':'none';
+    const b1=$('ordBtnMan'), b2=$('ordBtnScan');
+    if(b1) b1.className = m==='manual'?'':'o';
+    if(b2) b2.className = m==='scan'?'':'o';
+}
+async function processOrderImage(input){
+    const file = input.files && input.files[0];
+    if(!file) return;
+    input.value = '';
+    const st = $('ordScanStatus');
+    if(st) st.innerHTML = '<span style="color:#b42318">🔍 Studying order photo with AI...</span>';
+    try {
+        const b64 = await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=()=>no(new Error('Could not read image'));r.readAsDataURL(file)});
+        const prompt = `Analyze this order slip or photo. Extract customer order details. Return ONLY a JSON object with keys: "name" (customer name string), "phone" (phone string), "desc" (product description string), "size" (size string), "col" (colour string), "qty" (quantity number), "rate" (rate number), "req" (any extra notes or multiple items summary).`;
+        const d = await callGeminiVision(b64, file.type, prompt);
+        if(d.name) { $('oname').value = d.name; ordFill(); }
+        if(d.phone) $('oph').value = d.phone;
+        if(d.desc) $('odesc').value = d.desc;
+        if(d.size) $('osize').value = d.size;
+        if(d.col) $('ocol').value = d.col;
+        if(d.qty) $('oqty').value = +d.qty || 1;
+        if(d.rate) $('orate').value = +d.rate || 0;
+        if(d.req) $('oreq').value = d.req;
+        if(st) st.innerHTML = '<span style="color:#0f6e56">✓ Order details filled from photo! Review &amp; click Save order.</span>';
+    } catch(e) {
+        alert('Error scanning order photo: ' + e.message);
+        if(st) st.innerHTML = '';
+    }
+}
+function pOrders(){const o=D.orders||[],pend=o.filter(x=>!x.done),don=o.filter(x=>x.done);
+return `<div class="card"><h3>Add daily order</h3>
+<div class="entry-mode-box np">
+    <div class="entry-tabs">
+        <button id="ordBtnMan" class="${ordEntryMode==='manual'?'':'o'}" onclick="setOrdEntryMode('manual')">⌨️ Option 1: Manually Enter Order</button>
+        <button id="ordBtnScan" class="${ordEntryMode==='scan'?'':'o'}" onclick="setOrdEntryMode('scan')">📷 Option 2: Scan Order Photo</button>
+    </div>
+    <div id="ordScanPanel" class="scan-panel" style="display:${ordEntryMode==='scan'?'block':'none'}">
+        <input type="file" id="ordScanInput" accept="image/*" capture="environment" style="display:none" onchange="processOrderImage(this)">
+        <button onclick="document.getElementById('ordScanInput').click()">📸 Choose / Snap Order Photo</button>
+        <div id="ordScanStatus" class="st" style="margin-top:6px"></div>
+    </div>
+</div>
+<input type="hidden" id="oid"><div class="g">${F('oname','Customer name','','text','list=cn autocomplete=off onchange="ordFill()"')}${F('oph','Phone number','','tel')}${F('odesc','Order description','')}${F('osize','Size','')}${F('ocol','Colour','')}${F('oqty','Quantity','','number')}${F('orate','Rate (₹)','','number')}${F('oreq','Specific requirements / notes','')}<div><label>&nbsp;</label><button onclick="saveOrder()">Save order</button> <button class="o" onclick="go(3)">Clear</button></div></div>${dl('cn',D.c.map(x=>x.name))}</div>
+<div class="card"><h3>Pending orders (${pend.length})</h3>${tbl(['Date','Customer','Details','Qty & rate',''],pend.map(x=>[x.date,'<b>'+esc(x.name)+'</b><br><small>'+esc(x.phone)+'</small>','<b>'+esc(x.desc)+'</b><br><small>Size: '+esc(x.size)+' | Colour: '+esc(x.col)+'</small><br><small>Notes: '+esc(x.req)+'</small>','<b>'+x.qty+'</b> × '+f(x.rate)+'<br><b>= '+f(x.qty*x.rate)+'</b>',`<button class="o np" onclick="orderToBill('${x.id}')">Make bill</button> <button class="o np" onclick="markOrder('${x.id}',true)">Done</button> <button class="o np" onclick="editOrder('${x.id}')">Edit</button> <button class="x np" onclick="delOrder('${x.id}')">×</button>`]))}</div>
+<div class="card np"><h3>Completed orders (${don.length})</h3>${tbl(['Date','Customer','Details',''],don.map(x=>[x.date,esc(x.name),esc(x.desc)+' ('+x.qty+' pcs)',`<button class="o" onclick="markOrder('${x.id}',false)">Undo</button> <button class="x" onclick="delOrder('${x.id}')">×</button>`]))}</div>`}
+function ordFill(){const c=D.c.find(x=>key(x.name)==key(v('oname')));if(c&&c.phone&&!v('oph'))$('oph').value=c.phone}
+function saveOrder(){if(!v('oname')||!v('odesc'))return alert('Customer name and description required.');const id=v('oid')||uid(),ix=D.orders.findIndex(x=>x.id==id),o={id,date:ix>=0?D.orders[ix].date:today(),name:v('oname'),phone:v('oph'),desc:v('odesc'),size:v('osize'),col:v('ocol'),qty:+v('oqty')||1,rate:+v('orate')||0,req:v('oreq'),done:ix>=0?D.orders[ix].done:false};
+if(ix>=0)D.orders[ix]=o;else D.orders.push(o);logA(ix>=0?'Order edited':'Order added',o.name+' · '+o.desc);save();go(3)}
+function editOrder(id){const o=D.orders.find(x=>x.id==id);if(!o)return;[['oid','id'],['oname','name'],['oph','phone'],['odesc','desc'],['osize','size'],['ocol','col'],['oqty','qty'],['orate','rate'],['oreq','req']].forEach(([a,b])=>$(a).value=o[b]??'');scrollTo(0,0)}
+function markOrder(id,done){const o=D.orders.find(x=>x.id==id);if(!o)return;o.done=done;logA(done?'Order completed':'Order reopened',o.name+' · '+o.desc);save();go(3)}
+function delOrder(id){const o=D.orders.find(x=>x.id==id);if(!o||!confirm('Delete this order?'))return;logA('Order deleted',o.name+' · '+o.desc);D.orders=D.orders.filter(x=>x.id!=id);save();go(3)}
+function orderToBill(id){const o=D.orders.find(x=>x.id==id);if(!o)return;bt=confirm('Make a Pakka (GST) bill from this order?\nOK = Pakka bill, Cancel = Kacha bill')?'P':'K';go(2);$('bn').value=o.name;fillC();if(o.phone&&!v('bph'))$('bph').value=o.phone;const r=document.querySelector('.row');r.querySelector('.d').value=o.desc;r.querySelector('.q').value=o.qty;r.querySelector('.r').value=o.rate;calc();scrollTo(0,0)}
+
+/* LOGIN */
+async function H(s,p){const b=new TextEncoder().encode(s+'|'+p);try{const d=await crypto.subtle.digest('SHA-256',b);return[...new Uint8Array(d)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){let h=5381;for(const c of b)h=(h*33^c)>>>0;return'f'+h}}
+function secCard(){const a=D.auth,ok=!!(D.p&&D.p.name);
+if(!a)return `<div class="card np"><h3>Login security</h3>${ok?`<p class="st">Create a User ID and password. From the next time, the app asks for them when it is opened.</p><div class="g">${F('lu','User ID')}${F('lp1','Password','','password','autocomplete=new-password')}${F('lp2','Confirm password','','password','autocomplete=new-password')}</div><p><button onclick="setAuth()">Create login</button></p>`:`<p class="m">Save your business profile above first, then you can create your login here.</p>`}</div>`;
+return `<div class="card np"><h3>Login security</h3><p class="st">Login is ON. User ID: <b>${esc(a.u)}</b></p><div class="g">${F('lc','Current password','','password','autocomplete=current-password')}${F('lu','New user ID',a.u)}${F('lp1','New password','','password','autocomplete=new-password')}${F('lp2','Confirm new password','','password','autocomplete=new-password')}</div><p><button onclick="setAuth()">Change login</button> <button class="o" onclick="logout()">Log out</button></p></div>`}
+async function setAuth(){const u=v('lu'),p1=$('lp1').value,p2=$('lp2').value;
+if(D.auth&&await H(D.auth.s,$('lc').value)!=D.auth.h)return alert('Current password is wrong');
+if(u.length<3)return alert('User ID must be at least 3 characters');if(p1.length<6)return alert('Password must be at least 6 characters');if(p1!=p2)return alert('Passwords do not match');
+const s=uid()+uid();D.auth={u,s,h:await H(s,p1)};save();alert('Login saved. Remember your User ID and password – they cannot be recovered.');go(0)}
+let fails=0;
+function lock(){document.body.classList.add('lk');$('lg').innerHTML=`<div class="card" style="width:100%;max-width:360px"><h2 style="text-align:center">${esc((D.p&&D.p.name)||'Sathi Enterprise')}</h2><p class="m" style="text-align:center">Please log in</p><form onsubmit="doLogin();return false">${F('lgu','User ID','','text','autocomplete=username autocapitalize=off')}${F('lgp','Password','','password','autocomplete=current-password')}<p><button style="width:100%">Log in</button></p></form><p id="lge" style="color:var(--r)"></p><p style="text-align:center"><button class="o" onclick="forgot()">Forgot password?</button></p></div>`;setTimeout(()=>$('lgu').focus(),50)}
+async function doLogin(){const e=$('lge');if(fails>=5){e.textContent='Too many attempts. Wait 30 seconds.';return}
+if(key(v('lgu'))==key(D.auth.u)&&await H(D.auth.s,$('lgp').value)==D.auth.h){fails=0;document.body.classList.remove('lk');go(0)}else{fails++;e.textContent='Wrong User ID or password.';if(fails>=5)setTimeout(()=>fails=0,30000)}}
+function logout(){location.reload()}
+function forgot(){if(!confirm('A forgotten password cannot be recovered. You can erase ALL data on this device and start fresh (a backup file is downloaded first). Continue?'))return;if(prompt('Type ERASE to delete all accounting data from this device')!=='ERASE')return;try{exportBackup()}catch(e){}try{localStorage.removeItem('sathi')}catch(e){}setTimeout(()=>location.reload(),1500)}
+
+// Global Keyboard Shortcuts
+document.addEventListener('keydown', e => {
+    // Check if user is typing in an input/textarea
+    if(document.body.classList.contains('lk'))return;const active = document.activeElement;
+    const isInput = active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.tagName === 'SELECT');
+
+    // Alt + N = New Bill
+    if (e.altKey && (e.key === 'n' || e.key === 'N')) {
+        e.preventDefault();
+        go(2); // billing
+        setTimeout(() => $('bn') && $('bn').focus(), 100);
+    }
+    // Alt + S = Stock
+    if (e.altKey && (e.key === 's' || e.key === 'S')) {
+        e.preventDefault();
+        go(4); // stock
+    }
+    // Alt + O = Orders
+    if (e.altKey && (e.key === 'o' || e.key === 'O')) {
+        e.preventDefault();
+        go(3);
+    }
+    // Esc = Close Overlays
+    if (e.key === 'Escape' && document.body.classList.contains('ov')) {
+        document.body.className = '';
+        $('ov').innerHTML = '';
+    }
+    
+    // Billing Enter Key Navigation (only if we are on billing page and typing in input)
+    if (e.key === 'Enter' && pg === 2 && isInput) {
+        e.preventDefault();
+        if (e.target.classList.contains('dis')) {
+            const rows = document.querySelectorAll('.row');
+            if (rows.length && rows[rows.length - 1].contains(e.target)) {
+                addRow();
+                const newRows = document.querySelectorAll('.row');
+                newRows[newRows.length - 1].querySelector('.d').focus();
+                return;
+            }
+        }
+        const focusables = Array.from(document.querySelectorAll('#v input:not([type="hidden"]):not([disabled]), #v select'));
+        const i = focusables.indexOf(e.target);
+        if (i > -1 && i < focusables.length - 1) focusables[i + 1].focus();
+    }
+});
+
+if(D.auth)lock();else go(0);
+</script></body></html>
